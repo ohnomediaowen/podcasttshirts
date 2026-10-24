@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Locally sourced tees from locally sourced podcasts. Podcast merch printed to order in Orlando, Florida.">
+<meta property="og:title" content="PodcastTShirts.com">
+<meta property="og:description" content="Locally sourced tees from locally sourced podcasts.">
+<style>*,*::before,*::after{box-sizing:border-box}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>PodcastTShirts.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;700;800&family=Bowlby+One&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Karla:wght@400;500;700;800&family=Shrikhand&display=swap">
+<style>
+/* Layout: a site-wide tab bar on top; under it, each show's page uses one shared template (masthead, shirt cards, order desk) re-skinned by that show's theme tokens. */
+:root {
+  color-scheme: light;
+  /* site chrome */
+  --bar-bg: #121212; --bar-ink: #f4f1ea; --bar-muted: #9a958c;
+  /* show theme tokens (overwritten per show by script; defaults = Oh No) */
+  --page: #faf6ee; --ink: #2b1712; --muted: #6f5a4f; --line: #ddcfbb; --field: #ffffff;
+  --head-bg: #4b2219; --head-ink: #fff3cf; --eyebrow: #e0592a; --eyebrow-head: #f2c14e;
+  --s1: #e0592a; --s2: #f2c14e; --s3: #2e8293; --swash-h: 30px;
+  --btn-bg: #4b2219; --btn-ink: #fff3cf; --btn-shadow: #e0592a;
+  --ticket-bg: #4b2219; --ticket-ink: #fff3cf; --tbtn-bg: #f2c14e; --tbtn-ink: #4b2219;
+  --focus: #2e8293; --error: #b3261e; --error-bg: #fde8e6;
+  --title-shadow: 3px 3px 0 #e0592a, 6px 6px 0 #f2c14e, 9px 9px 0 #2e8293;
+  --display: "Shrikhand", "Cooper Black", Georgia, serif; --display-weight: 400; --display-case: none; --display-track: .5px;
+  --body: "Karla", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --radius: 22px;
+  --site: "Archivo", "Helvetica Neue", Arial, sans-serif;
+}
+body { background: var(--page); color: var(--ink); font-family: var(--body); font-size: 1rem; line-height: 1.55; margin: 0; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bar-bg); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Site bar + tabs */
+.sitebar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bar-bg); color: var(--bar-ink); font-family: var(--site); }
+.sitebar .wrap { display: flex; align-items: center; gap: 1.25rem; padding-block: .55rem; }
+.brand { font-family: "Archivo Black", var(--site); font-size: 1.05rem; letter-spacing: -.01em; white-space: nowrap; text-decoration: none; }
+.brand b { color: var(--bar-muted); font-weight: 400; }
+.tabs { display: flex; gap: .3rem; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: none; appearance: none; border: 0; background: transparent; color: var(--bar-muted); font: 700 .9rem var(--site); padding: .55rem .9rem; border-radius: 999px; cursor: pointer; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: .45rem; }
+.tab:hover { color: var(--bar-ink); }
+.tab[aria-selected="true"] { background: var(--bar-ink); color: var(--bar-bg); }
+.tab .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
+@media (max-width: 640px) { .sitebar .wrap { flex-direction: column; align-items: stretch; gap: .35rem; } .tabs { margin-inline: -4px; } }
+
+/* POD notice */
+.pod { background: var(--page); border-bottom: 1px solid var(--line); }
+.pod .wrap { padding-block: .7rem; font-size: .92rem; display: flex; flex-wrap: wrap; gap: .15rem .6rem; align-items: baseline; }
+.pod strong { white-space: nowrap; color: var(--eyebrow); text-transform: uppercase; letter-spacing: .1em; font-size: .76rem; }
+
+/* Masthead */
+.mast { background: var(--head-bg); color: var(--head-ink); }
+.mast .wrap { padding-block: 2.5rem 2rem; display: grid; gap: .5rem; }
+.mast h1 { font-family: var(--display); font-weight: var(--display-weight); text-transform: var(--display-case); letter-spacing: var(--display-track); font-size: clamp(2.2rem, 7vw, 4.4rem); line-height: 1.02; text-shadow: var(--title-shadow); }
+.mast p { margin: 1rem 0 0; max-width: 40rem; opacity: .9; font-size: 1.05rem; }
+.eyebrow { font-weight: 800; text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; color: var(--eyebrow); }
+.mast .eyebrow { color: var(--eyebrow-head); }
+.swash { height: var(--swash-h); background: linear-gradient(var(--s1) 0 33.3%, var(--s2) 33.3% 66.6%, var(--s3) 66.6% 100%); }
+
+/* Orlando stamp + section */
+.mast-grid { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 2rem; }
+.mast-copy { display: grid; gap: .5rem; min-width: 0; }
+.stamp { width: clamp(120px, 16vw, 176px); aspect-ratio: 1; color: var(--eyebrow-head); transform: rotate(-12deg); font-family: var(--site); flex: none; }
+.stamp svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.stamp .stamp-city { font-family: var(--display); }
+@media (max-width: 640px) { .mast-grid { grid-template-columns: minmax(0, 1fr); } .stamp { width: 112px; justify-self: end; margin-top: -.5rem; } }
+.orl { background: var(--head-bg); color: var(--head-ink); border-block: 1px solid var(--line); }
+.orl-grid { padding-block: 3rem; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2.5rem; align-items: center; }
+@media (max-width: 820px) { .orl-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; } }
+.orl .eyebrow { color: var(--eyebrow-head); }
+.orl h2 { font-family: var(--display); font-weight: var(--display-weight); text-transform: var(--display-case); letter-spacing: var(--display-track); font-size: clamp(2rem, 5.5vw, 3.4rem); line-height: 1.04; margin-top: .4rem; text-shadow: var(--title-shadow); }
+.orl p { margin: 1rem 0 0; max-width: 34rem; opacity: .9; font-size: 1.05rem; }
+.orl-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+.orl-facts li { display: grid; gap: .15rem; padding: 1rem 1.1rem; border: 1.5px solid color-mix(in srgb, var(--head-ink) 28%, transparent); border-radius: calc(var(--radius) - 6px); }
+.orl-facts strong { font-size: 1.05rem; }
+.orl-facts span { opacity: .82; font-size: .95rem; }
+
+/* Splash */
+.hero h1 { font-size: clamp(2.3rem, 6.4vw, 4.6rem); line-height: 1.0; max-width: 15ch; }
+.hero .btn { background: var(--eyebrow-head); color: var(--head-bg); box-shadow: 4px 4px 0 var(--s1); margin-top: .5rem; }
+.mast-logo { display: block; width: min(100%, 560px); height: auto; margin: .2rem 0 .4rem; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 1.25rem; }
+@media (min-width: 700px) { .tiles { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } }
+.tile { display: grid; gap: .7rem; text-decoration: none; color: var(--ink); }
+.tile .art { position: relative; aspect-ratio: 1; border-radius: var(--radius); background: var(--t-bg); color: var(--t-ink); overflow: hidden; display: grid; place-items: center; padding: 1.2rem; box-sizing: border-box; border: 1.5px solid var(--t-line); transition: transform .15s ease, box-shadow .15s ease; }
+.tile:hover .art, .tile:focus-visible .art { transform: translateY(-3px) rotate(-1deg); box-shadow: 0 10px 24px rgba(0,0,0,.18); }
+.tile .art img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.tile .art img.tile-logo { position: static; width: 92%; height: auto; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,.35)); margin-bottom: 10px; }
+.tile-name { font-family: var(--t-font); text-transform: var(--t-case); font-size: clamp(1.6rem, 3.4vw, 2.2rem); line-height: 1.02; text-align: center; text-shadow: var(--t-shadow); text-wrap: balance; }
+.tile .q { font-family: var(--t-font); font-size: clamp(5rem, 11vw, 7.5rem); line-height: 1; color: var(--t-acc); text-shadow: var(--t-shadow); }
+.tile-stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 14px; background: linear-gradient(var(--t-s1) 0 33.3%, var(--t-s2) 33.3% 66.6%, var(--t-s3) 66.6% 100%); }
+.tile-meta { display: grid; gap: .1rem; }
+.tile-meta strong { font-size: 1.05rem; }
+.tile-meta span { color: var(--muted); font-size: .9rem; }
+.soon-tile .tile-meta strong { color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .tile .art { transition: none; } }
+
+/* Products */
+.products { padding-block: 3rem 1rem; }
+.section-head { display: grid; gap: .3rem; margin-bottom: 1.5rem; }
+.section-head h2 { font-family: var(--display); font-weight: var(--display-weight); text-transform: var(--display-case); letter-spacing: var(--display-track); font-size: clamp(1.7rem, 4vw, 2.3rem); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; }
+.card { border-radius: var(--radius); padding: 1.25rem; display: grid; gap: 1rem; align-content: start; position: relative; background: var(--c-bg); color: var(--c-ink); border: 1px solid var(--c-border, transparent); }
+.photo { background: #fff; border-radius: calc(var(--radius) - 8px); overflow: hidden; aspect-ratio: 1; max-width: 100%; }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumbs { display: flex; gap: .5rem; }
+.thumbs button { width: 58px; height: 58px; padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; background: #fff; cursor: pointer; }
+.thumbs button[aria-pressed="true"] { border-color: var(--c-ink); }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.badge { position: absolute; top: 2rem; left: 2rem; background: var(--b-bg); color: var(--b-ink); font-weight: 800; font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; padding: .4rem .7rem; border-radius: 999px; box-shadow: 3px 3px 0 var(--btn-shadow); }
+.card-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.card h3 { font-size: 1.3rem; font-weight: 800; }
+.price { font-family: var(--display); font-weight: var(--display-weight); font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.card p { margin: 0; color: var(--c-muted); }
+.card .note { font-size: .88rem; font-weight: 700; color: var(--c-note); }
+.sizes-inline { display: flex; gap: .35rem; flex-wrap: wrap; }
+.sizes-inline span { font-weight: 700; font-size: .85rem; border: 1.5px solid currentColor; border-radius: 8px; padding: .15rem .55rem; }
+.btn { appearance: none; border: 0; cursor: pointer; font: 800 1rem var(--body); letter-spacing: .02em; border-radius: 999px; padding: .85rem 1.4rem; background: var(--btn-bg); color: var(--btn-ink); text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: .5rem; transition: transform .12s ease, box-shadow .12s ease; box-shadow: 4px 4px 0 var(--btn-shadow); }
+.card .btn { background: var(--cb-bg, var(--btn-bg)); color: var(--cb-ink, var(--btn-ink)); }
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--btn-shadow); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--btn-shadow); }
+
+/* Coming soon */
+.soon { border: 2px dashed var(--line); border-radius: var(--radius); padding: 2.5rem 1.5rem; display: grid; gap: .8rem; justify-items: start; max-width: 40rem; }
+.soon h3 { font-family: var(--display); font-weight: var(--display-weight); text-transform: var(--display-case); font-size: 1.6rem; }
+.soon p { margin: 0; color: var(--muted); }
+
+/* Order */
+.order { padding-block: 3rem 4rem; }
+.desk { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
+@media (max-width: 820px) { .desk { grid-template-columns: minmax(0, 1fr); } }
+form { display: grid; gap: 1.75rem; min-width: 0; }
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: .9rem; min-width: 0; }
+legend { font-weight: 800; font-size: 1.05rem; margin-bottom: .6rem; padding: 0; display: flex; gap: .6rem; align-items: center; }
+legend .step { font-family: var(--display); font-weight: var(--display-weight); color: var(--eyebrow); font-size: 1.2rem; }
+.choices { display: flex; flex-wrap: wrap; gap: .5rem; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.choice label { display: inline-flex; align-items: center; gap: .55rem; border: 2px solid var(--line); background: var(--field); color: var(--ink); border-radius: 12px; padding: .6rem .9rem; font-weight: 700; cursor: pointer; min-width: 3.2rem; justify-content: center; }
+.choice input:checked + label { border-color: var(--btn-bg); background: var(--btn-bg); color: var(--btn-ink); }
+.choice input:focus-visible + label { outline: 3px solid var(--focus); outline-offset: 2px; }
+.swatch { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid rgba(128,128,128,.5); flex: none; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: .9rem; }
+.field { display: grid; gap: .3rem; min-width: 0; }
+.field label { font-weight: 700; font-size: .9rem; }
+.field label small { font-weight: 500; color: var(--muted); }
+input[type=text], input[type=email], input[type=tel], select, textarea { font: inherit; color: var(--ink); background: var(--field); border: 1.5px solid var(--line); border-radius: 10px; padding: .65rem .75rem; width: 100%; box-sizing: border-box; }
+input:focus, select:focus, textarea:focus { border-color: var(--focus); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 30%, transparent); }
+.field.bad input, .field.bad select { border-color: var(--error); }
+.err { color: var(--error); font-size: .85rem; font-weight: 700; }
+.qty { display: inline-flex; align-items: center; border: 1.5px solid var(--line); border-radius: 12px; background: var(--field); overflow: hidden; width: max-content; }
+.qty button { width: 44px; height: 44px; border: 0; background: transparent; font: 800 1.2rem var(--body); color: var(--ink); cursor: pointer; }
+.qty button:disabled { opacity: .3; cursor: default; }
+.qty output { min-width: 2.5rem; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums; }
+.hint { color: var(--muted); font-size: .88rem; margin: 0; }
+
+.ticket { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 4.5rem); background: var(--ticket-bg); color: var(--ticket-ink); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+.ticket .swash { height: 14px; }
+.ticket-body { padding: 1.4rem; display: grid; gap: 1rem; }
+.ticket h3 { font-family: var(--display); font-weight: var(--display-weight); text-transform: var(--display-case); font-size: 1.5rem; }
+.ticket-item { display: grid; grid-template-columns: 72px 1fr; gap: .9rem; align-items: center; }
+.ticket-item img { width: 72px; height: 72px; border-radius: 10px; background: #fff; object-fit: cover; }
+.ticket-item strong { display: block; }
+.ticket-item span { opacity: .8; font-size: .92rem; }
+.lines { display: grid; gap: .35rem; border-top: 1px dashed color-mix(in srgb, var(--ticket-ink) 35%, transparent); padding-top: .9rem; font-variant-numeric: tabular-nums; }
+.lines div { display: flex; justify-content: space-between; gap: 1rem; }
+.lines .total { font-weight: 800; font-size: 1.2rem; border-top: 1px dashed color-mix(in srgb, var(--ticket-ink) 35%, transparent); padding-top: .6rem; margin-top: .3rem; }
+.ticket .btn { background: var(--tbtn-bg); color: var(--tbtn-ink); width: 100%; box-sizing: border-box; }
+.ticket .fine { font-size: .84rem; opacity: .82; margin: 0; }
+.form-msg { background: var(--error-bg); color: var(--error); border-radius: 10px; padding: .7rem .9rem; font-weight: 700; font-size: .92rem; }
+
+.showfoot { background: var(--head-bg); color: var(--head-ink); }
+.showfoot .wrap { padding-block: 1.6rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; font-size: .92rem; }
+.mail { font-weight: 700; user-select: all; }
+.copy { appearance: none; border: 1.5px solid currentColor; background: transparent; color: inherit; border-radius: 999px; padding: .3rem .8rem; font: 700 .82rem var(--body); cursor: pointer; margin-left: .5rem; }
+.sitefoot { background: var(--bar-bg); color: var(--bar-muted); font-family: var(--site); font-size: .85rem; }
+.sitefoot .wrap { padding-block: 1.1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+
+<header class="sitebar">
+  <div class="wrap">
+    <a class="brand" href="#home">PodcastTShirts<b>.com</b></a>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Shows"></nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="sitefoot">
+  <div class="wrap"><span>© 2026 PodcastTShirts.com</span><span>Merch for podcasts, new and old · Locally made in Orlando, Florida</span></div>
+</footer>
+
+<script>
+/* =====================================================================
+   SITE SETTINGS
+   ===================================================================== */
+var SITE = {
+  paypalEmail: "ohnomediaowen@gmail.com",   // where every payment goes
+  contactEmail: "ohnomediaowen@gmail.com",
+  podNote: "Every shirt is printed on demand, locally in Orlando, Florida. Printing, shipping and processing take a few weeks.",
+  madeIn: "Orlando, FL"
+};
+
+/* =====================================================================
+   SHOWS — each entry is one tab and one page. To add a show, copy a
+   block, give it a new id, colors and products. Order here = tab order.
+   ===================================================================== */
+var HOME = {
+  theme: {
+    page: "#f4f1eb", ink: "#141414", muted: "#5d5850", line: "#d9d2c5", field: "#ffffff",
+    "head-bg": "#141414", "head-ink": "#f4f1eb", eyebrow: "#d9531e", "eyebrow-head": "#f2c14e",
+    s1: "#e0592a", s2: "#f2c14e", s3: "#2e8293", "swash-h": "12px",
+    "btn-bg": "#141414", "btn-ink": "#f4f1eb", "btn-shadow": "#d9531e", focus: "#d9531e",
+    "title-shadow": "none", radius: "16px",
+    display: "\"Archivo Black\", \"Arial Black\", Impact, sans-serif", "display-weight": "400", "display-case": "none", "display-track": "-.02em",
+    body: "\"Archivo\", \"Helvetica Neue\", Arial, sans-serif"
+  }
+};
+
+var SHOWS = [
+  {
+    id: "oh-no",
+    name: "Oh No Radio Show",
+    title: "Oh No Radio Show Merch",
+    intro: "Retro tees for listeners who like their podcasts dumb and their shirts soft. Pick a shirt, choose shipping or free pickup (arrange pickup via email at ohnomediaowen@gmail.com ORLANDO AREA ONLY), and pay securely with PayPal",
+    copyright: "OH NO MEDIA",
+    logo: "img/ohno-logo.png",
+    dot: "#e0592a",
+    shipping: 6.00,
+    pickup: { label: "Pick up in person · Free (Orlando area only)", note: "Orlando area only. No shipping charge. After you pay, email ohnomediaowen@gmail.com to arrange a time and place to pick up your shirt." },
+    theme: {}, // uses the default tokens (the original Oh No look)
+    products: [
+      { id: "cream", name: "Cream Logo Tee", choice: "Cream", swatch: "#ece2d0", price: 23, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        desc: "Warm sand-cream tee with the full-color Oh No Radio Show logo across the chest.",
+        images: ["img/cream.jpg"], alt: "Cream Oh No Radio Show t-shirt with the retro rainbow logo",
+        card: { bg: "#ece2d0", ink: "#4b2219", muted: "#6f5a4f" }, cta: "Order the cream tee" },
+      { id: "blue", name: "Blue Logo Tee (Limited Edition)", short: "Blue Logo Tee", choice: "Blue (limited)", swatch: "#c6d7ea", price: 23, sizes: ["S"], def: "S", maxQty: 2,
+        badge: "Limited edition", hint: "Limited edition: available in small only.",
+        desc: "Heather sky-blue tee in a limited run. Once these are gone, they are gone.",
+        images: ["img/blue.jpg", "img/blue-2.jpg"], alt: "Light blue Oh No Radio Show t-shirt, limited edition",
+        card: { bg: "#c6d7ea", ink: "#4b2219", muted: "#4f4a52" }, cta: "Order the blue tee" },
+      { id: "podcast-sucks", name: "PRE-ORDER: Your Favorite Podcast Sucks Tee (Black)", short: "Your Favorite Podcast Sucks Tee", choice: "Black “Podcast Sucks” (pre-order)", swatch: "#1b1b1e", price: 23, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        badge: "Pre-order", badgeStyle: { bg: "#f2c14e", ink: "#4b2219" }, hint: "Pre-order: paid now, ships or is ready for pickup when the print run is done.",
+        desc: "Black tee, bold white letters, zero apologies. Small ohnoradioshow.com under the punchline.",
+        note: "Paid pre-order: you pay now, and your shirt ships (or is ready for pickup) as soon as the print run is done.",
+        images: ["img/black.jpg"], alt: "Black t-shirt reading Your favorite podcast sucks in bold white letters",
+        card: { bg: "#1b1b1e", ink: "#fff3cf", muted: "#cfc6b8", note: "#f2c14e", btnBg: "#f2c14e", btnInk: "#4b2219" }, cta: "Pre-order the black tee" }
+    ]
+  },
+  {
+    id: "scotch",
+    name: "Scotch and “Good” Conversation",
+    title: "Scotch and “Good” Conversation Merch",
+    intro: "Tees for people who like their whisky neat and their conversation questionable. Black or white, pick your shirt, choose shipping or free pickup (arrange pickup via email at ohnomediaowen@gmail.com ORLANDO AREA ONLY), and pay securely with PayPal",
+    copyright: "SCOTCH AND “GOOD” CONVERSATION",
+    headerLogo: "img/scotch-logo.png",
+    thumb: "img/scotch-tile-light.jpg",
+    tileBorder: "#141414",
+    dot: "#ffffff",
+    shipping: 6.00,
+    pickup: { label: "Pick up in person · Free (Orlando area only)", note: "Orlando area only. No shipping charge. After you pay, email ohnomediaowen@gmail.com to arrange a time and place to pick up your shirt." },
+    theme: {
+      page: "#f7f6f2", ink: "#111111", muted: "#5e5e5e", line: "#d9d9d9", field: "#ffffff",
+      "head-bg": "#ffffff", "head-ink": "#111111", eyebrow: "#c8202a", "eyebrow-head": "#c8202a",
+      s1: "#111111", s2: "#ffffff", s3: "#c8202a", "swash-h": "9px",
+      "btn-bg": "#111111", "btn-ink": "#ffffff", "btn-shadow": "#c8202a",
+      "ticket-bg": "#111111", "ticket-ink": "#ffffff", "tbtn-bg": "#ffffff", "tbtn-ink": "#111111",
+      focus: "#c8202a", "title-shadow": "none", radius: "6px",
+      display: "\"DM Serif Display\", Georgia, \"Times New Roman\", serif", "display-weight": "400", "display-track": "0",
+      body: "\"DM Sans\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    products: [
+      { id: "scotch-logo-white", name: "Scotch and “Good” Conversation Logo Tee (White)", short: "Logo Tee, White", choice: "White logo tee", swatch: "#faf9f6", price: 25, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        desc: "Crisp white tee with the typewriter Scotch and “good” Conversation logo across the chest, red “good” and all.",
+        images: ["img/scotch-logo-tee-white.jpg"], alt: "White t-shirt with the Scotch and good Conversation typewriter logo",
+        card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white logo tee" },
+      { id: "scotch-logo-black", name: "Scotch and “Good” Conversation Logo Tee (Black)", short: "Logo Tee, Black", choice: "Black logo tee", swatch: "#161922", price: 25, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        desc: "Black tee with the logo printed in white, and that red “good” doing the heavy lifting.",
+        images: ["img/scotch-logo-tee-black.jpg"], alt: "Black t-shirt with the Scotch and good Conversation logo in white",
+        card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black logo tee" },
+      { id: "corporate-white", name: "Corporate Podcasts Still Suck Tee (White)", short: "Corporate Podcasts Tee, White", choice: "White “Corporate Podcasts”", swatch: "#faf9f6", price: 25, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        desc: "White tee, distressed black letters, one honest opinion. Small scotchandgoodconversation.com under the punchline.",
+        images: ["img/corporate-tee-white.jpg"], alt: "White t-shirt reading Corporate podcasts still suck",
+        card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white tee" },
+      { id: "corporate-black", name: "Corporate Podcasts Still Suck Tee (Black)", short: "Corporate Podcasts Tee, Black", choice: "Black “Corporate Podcasts”", swatch: "#161922", price: 25, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        desc: "Black tee with weathered white letters. Still true, still printed in Orlando.",
+        images: ["img/corporate-tee-black.jpg"], alt: "Black t-shirt reading Corporate podcasts still suck in white",
+        card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black tee" }
+    ]
+  },
+  {
+    id: "soon-2",
+    comingSoon: true,
+    name: "Coming soon",
+    title: "Coming soon",
+    intro: "A new local podcast is joining the lineup. Its merch is being designed right now, printed in Orlando like everything else here.",
+    copyright: "PodcastTShirts.com",
+    dot: "#e01b24",
+    shipping: 6.00,
+    scheme: "dark",
+    theme: {
+      page: "#0b0b0b", ink: "#f5f5f5", muted: "#a9a9a9", line: "#2f2f2f", field: "#171717",
+      "head-bg": "#000000", "head-ink": "#ffffff", eyebrow: "#e01b24", "eyebrow-head": "#e01b24",
+      s1: "#e01b24", s2: "#000000", s3: "#000000", "swash-h": "6px",
+      "btn-bg": "#e01b24", "btn-ink": "#ffffff", "btn-shadow": "#4a0a0d",
+      "ticket-bg": "#161616", "ticket-ink": "#ffffff", "tbtn-bg": "#e01b24", "tbtn-ink": "#ffffff",
+      focus: "#e01b24", error: "#ff6b6b", "error-bg": "#2a1010", "title-shadow": "5px 5px 0 #e01b24", radius: "4px",
+      display: "\"Archivo Black\", \"Arial Black\", Impact, sans-serif", "display-weight": "400", "display-case": "uppercase", "display-track": "-.01em",
+      body: "\"Archivo\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    products: []
+  },
+  {
+    id: "soon-3",
+    comingSoon: true,
+    name: "Coming soon",
+    title: "Coming soon",
+    intro: "A new local podcast is joining the lineup. Its merch is being designed right now, printed in Orlando like everything else here.",
+    copyright: "PodcastTShirts.com",
+    dot: "#2fb55a",
+    shipping: 6.00,
+    theme: {
+      page: "#f1f7ef", ink: "#0f2a17", muted: "#4d6b55", line: "#c6dbc9", field: "#ffffff",
+      "head-bg": "#0f5c2e", "head-ink": "#eaf7e6", eyebrow: "#1f8f45", "eyebrow-head": "#9be15d",
+      s1: "#9be15d", s2: "#2fb55a", s3: "#0b3f20", "swash-h": "24px",
+      "btn-bg": "#0f5c2e", "btn-ink": "#eaf7e6", "btn-shadow": "#9be15d",
+      "ticket-bg": "#0f5c2e", "ticket-ink": "#eaf7e6", "tbtn-bg": "#9be15d", "tbtn-ink": "#0f2a17",
+      focus: "#1f8f45", "title-shadow": "4px 4px 0 #2fb55a", radius: "18px",
+      display: "\"Bowlby One\", \"Arial Black\", sans-serif", "display-weight": "400", "display-track": "0",
+      body: "\"Karla\", \"Avenir Next\", \"Segoe UI\", sans-serif"
+    },
+    products: []
+  }
+];
+
+/* =====================================================================
+   Page engine (no edits needed below to add a show)
+   ===================================================================== */
+window.__startShop = function () {
+  var root = document.documentElement, app = document.getElementById("app"), tabsEl = document.getElementById("tabs");
+  var DEFAULTS = {}; var THEME_KEYS = {};
+  SHOWS.concat([HOME]).forEach(function (s) { Object.keys(s.theme || {}).forEach(function (k) { THEME_KEYS[k] = 1; }); });
+  var cs = getComputedStyle(root);
+  Object.keys(THEME_KEYS).forEach(function (k) { DEFAULTS[k] = cs.getPropertyValue("--" + k).trim(); });
+
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var money = function (n) { return "$" + Number(n).toFixed(2); };
+
+  (function () { var h = document.createElement("a"); h.className = "tab"; h.href = "#home"; h.id = "tab-home"; h.setAttribute("role", "tab"); h.textContent = "All shows"; tabsEl.appendChild(h); })();
+  SHOWS.forEach(function (s) {
+    var a = document.createElement("a");
+    a.className = "tab"; a.href = "#" + s.id; a.id = "tab-" + s.id; a.setAttribute("role", "tab");
+    a.innerHTML = '<span class="dot" style="background:' + esc(s.dot) + '"></span>' + esc(s.name);
+    tabsEl.appendChild(a);
+  });
+
+  var state = {};
+
+  function applyTheme(show) {
+    Object.keys(THEME_KEYS).forEach(function (k) { root.style.setProperty("--" + k, (show.theme && show.theme[k]) || DEFAULTS[k]); });
+    root.style.colorScheme = show.scheme === "dark" ? "dark" : "light";
+  }
+
+  function productCard(p) {
+    var c = p.card || {};
+    var style = "--c-bg:" + (c.bg || "transparent") + ";--c-ink:" + (c.ink || "inherit") + ";--c-muted:" + (c.muted || "inherit") + ";--c-note:" + (c.note || "inherit") +
+      (c.border ? ";--c-border:" + c.border : "") + (c.btnBg ? ";--cb-bg:" + c.btnBg : "") + (c.btnInk ? ";--cb-ink:" + c.btnInk : "") +
+      ";--b-bg:" + ((p.badgeStyle && p.badgeStyle.bg) || "var(--btn-bg)") + ";--b-ink:" + ((p.badgeStyle && p.badgeStyle.ink) || "var(--btn-ink)");
+    var thumbs = p.images.length > 1 ? '<div class="thumbs" role="group" aria-label="' + esc(p.short || p.name) + ' photos">' +
+      p.images.map(function (src, i) { return '<button type="button" aria-pressed="' + (i === 0) + '" data-main="main-' + esc(p.id) + '" data-src="' + esc(src) + '"><img src="' + esc(src) + '" alt="Photo ' + (i + 1) + '"></button>'; }).join("") + '</div>' : "";
+    return '<article class="card" style="' + style + '">' +
+      (p.badge ? '<span class="badge">' + esc(p.badge) + '</span>' : "") +
+      '<div class="photo"><img id="main-' + esc(p.id) + '" src="' + esc(p.images[0]) + '" alt="' + esc(p.alt) + '" width="1200" height="1200"></div>' + thumbs +
+      '<div class="card-row"><h3>' + esc(p.short || p.name) + '</h3><span class="price">' + money(p.price) + '</span></div>' +
+      '<p>' + esc(p.desc) + '</p>' + (p.note ? '<p class="note">' + esc(p.note) + '</p>' : "") +
+      '<div class="sizes-inline" aria-label="Sizes available">' + (p.sizes.length === 1 ? '<span>' + esc(p.sizes[0]) + ' only</span>' : p.sizes.map(function (z) { return '<span>' + esc(z) + '</span>'; }).join("")) + '</div>' +
+      '<a class="btn" href="#order" data-pick="' + esc(p.id) + '">' + esc(p.cta || "Order this tee") + '</a></article>';
+  }
+
+  function stamp() {
+    var ring = "LOCALLY MADE \u2605 ORLANDO, FLORIDA \u2605 ";
+    return '<div class="stamp" role="img" aria-label="Locally made in Orlando, Florida"><svg viewBox="0 0 200 200" aria-hidden="true">' +
+      '<defs><path id="ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>' +
+      '<circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" stroke-width="1.5"/>' +
+      '<text font-size="17" font-weight="800" fill="currentColor"><textPath href="#ring" textLength="486" lengthAdjust="spacing">' + ring + '</textPath></text>' +
+      '<text x="100" y="92" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="3" fill="currentColor">MADE IN</text>' +
+      '<text x="100" y="122" text-anchor="middle" font-size="30" font-weight="900" fill="currentColor" class="stamp-city">ORL</text>' +
+      '<text x="100" y="142" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="2" fill="currentColor">FLORIDA</text></svg></div>';
+  }
+
+  function orlando() {
+    return '<section class="orl" aria-labelledby="orl-h"><div class="wrap orl-grid">' +
+      '<div class="orl-copy"><span class="eyebrow">Locally made</span><h2 id="orl-h">Printed right here in Orlando.</h2>' +
+      '<p>Every shirt on this site is printed to order in Orlando, Florida. No overseas warehouse and no mass-produced stock sitting on a shelf. When you order, your shirt gets made here, by local hands, for you.</p></div>' +
+      '<ul class="orl-facts">' +
+      '<li><strong>Printed in Orlando</strong><span>Each design is printed locally in Central Florida.</span></li>' +
+      '<li><strong>Made to order</strong><span>Your shirt is printed after you buy it, so nothing goes to waste.</span></li>' +
+      '<li><strong>Keeps it local</strong><span>Your money stays with Orlando makers and the shows you listen to.</span></li>' +
+      '</ul></div></section>';
+  }
+
+  function orderSection(show) {
+    var pickup = show.pickup;
+    return '<section class="order wrap" id="order" aria-labelledby="order-h"><div class="section-head"><span class="eyebrow">Order form</span><h2 id="order-h">Get yours</h2></div>' +
+      '<div class="desk"><form id="orderForm" novalidate>' +
+      '<fieldset><legend><span class="step">1</span> Choose a shirt</legend><div class="choices">' +
+      show.products.map(function (p, i) { return '<div class="choice"><input type="radio" name="shirt" id="shirt-' + esc(p.id) + '" value="' + esc(p.id) + '"' + (i === 0 ? " checked" : "") + '><label for="shirt-' + esc(p.id) + '"><span class="swatch" style="background:' + esc(p.swatch) + '"></span>' + esc(p.choice || p.short || p.name) + '</label></div>'; }).join("") +
+      '</div></fieldset>' +
+      '<fieldset><legend><span class="step">2</span> Size and quantity</legend><div class="choices" id="sizeChoices"></div><p class="hint" id="sizeHint"></p>' +
+      '<div class="qty" aria-label="Quantity"><button type="button" id="qtyMinus" aria-label="One fewer">−</button><output id="qtyOut" aria-live="polite">1</output><button type="button" id="qtyPlus" aria-label="One more">+</button></div></fieldset>' +
+      '<fieldset><legend><span class="step">3</span> Delivery</legend><div class="choices">' +
+      '<div class="choice"><input type="radio" name="delivery" id="del-ship" value="ship" checked><label for="del-ship">Ship it to me · ' + money(show.shipping) + '</label></div>' +
+      (pickup ? '<div class="choice"><input type="radio" name="delivery" id="del-pickup" value="pickup"><label for="del-pickup">' + esc(pickup.label) + '</label></div>' : "") +
+      '</div>' + (pickup ? '<p class="hint" id="pickupHint" hidden>' + esc(pickup.note) + '</p>' : "") + '</fieldset>' +
+      '<fieldset><legend><span class="step">4</span> <span id="detailsTitle">Shipping details</span></legend>' +
+      '<div class="row"><div class="field"><label for="first">First name</label><input type="text" id="first" autocomplete="given-name" required></div><div class="field"><label for="last">Last name</label><input type="text" id="last" autocomplete="family-name" required></div></div>' +
+      '<div class="row"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="phone">Phone <small>(optional)</small></label><input type="tel" id="phone" autocomplete="tel"></div></div>' +
+      '<div id="addrBlock" style="display:grid;gap:.9rem"><div class="field"><label for="addr1">Street address</label><input type="text" id="addr1" autocomplete="address-line1" required></div>' +
+      '<div class="field"><label for="addr2">Apt, suite, unit <small>(optional)</small></label><input type="text" id="addr2" autocomplete="address-line2"></div>' +
+      '<div class="row"><div class="field"><label for="city">City</label><input type="text" id="city" autocomplete="address-level2" required></div><div class="field"><label for="state">State / province</label><input type="text" id="state" autocomplete="address-level1" required></div><div class="field"><label for="zip">ZIP / postal code</label><input type="text" id="zip" autocomplete="postal-code" required></div></div>' +
+      '<div class="field"><label for="country">Country</label><select id="country" autocomplete="country"><option value="US" selected>United States</option><option value="CA">Canada</option><option value="GB">United Kingdom</option><option value="AU">Australia</option></select></div></div>' +
+      '<div class="field"><label for="notes">Order notes <small>(optional)</small></label><textarea id="notes" rows="2" maxlength="200"></textarea></div></fieldset></form>' +
+      '<aside class="ticket" aria-labelledby="sum-h"><div class="swash" aria-hidden="true"></div><div class="ticket-body"><h3 id="sum-h">Your order</h3>' +
+      '<div class="ticket-item"><img id="sumImg" src="" alt=""><div><strong id="sumName"></strong><span id="sumMeta"></span></div></div>' +
+      '<div class="lines"><div><span>Subtotal</span><span id="sumSub"></span></div><div><span id="shipLabel">Shipping &amp; handling</span><span id="sumShip"></span></div><div class="total"><span>Total</span><span id="sumTotal"></span></div></div>' +
+      '<div class="form-msg" id="formMsg" hidden></div><a class="btn" id="payBtn" href="#" target="_blank" rel="noopener">Pay with PayPal</a>' +
+      '<p class="fine"><strong>Made in Orlando.</strong> ' + esc(SITE.podNote) + ' You’ll finish checkout on PayPal’s secure site, and your shirt, size and delivery details go with the payment.</p></div></aside></div></section>';
+  }
+
+  function selectTab(id) {
+    tabsEl.querySelectorAll(".tab").forEach(function (t) { t.setAttribute("aria-selected", t.id === "tab-" + id ? "true" : "false"); });
+  }
+
+  function tile(show) {
+    var t = show.theme || {}, v = function (k) { return t[k] || DEFAULTS[k]; };
+    var style = "--t-bg:" + (show.tileBg || v("head-bg")) + ";--t-ink:" + v("head-ink") + ";--t-acc:" + v("eyebrow-head") + ";--t-s1:" + v("s1") + ";--t-s2:" + v("s2") + ";--t-s3:" + v("s3") +
+      ";--t-font:" + v("display") + ";--t-shadow:" + v("title-shadow") + ";--t-case:" + v("display-case") + ";--t-line:" + (show.tileBorder || "transparent");
+    if (show.comingSoon) {
+      return '<a class="tile soon-tile" href="#' + esc(show.id) + '" style="' + style + '" aria-label="A new show, coming soon"><div class="art"><span class="q">?</span><span class="tile-stripe" aria-hidden="true"></span></div>' +
+        '<div class="tile-meta"><strong>Coming soon</strong><span>A new local show</span></div></a>';
+    }
+    return '<a class="tile" href="#' + esc(show.id) + '" style="' + style + '"><div class="art">' +
+      (show.logo ? '<img class="tile-logo" src="' + esc(show.logo) + '" alt="' + esc(show.name) + ' logo">' : show.thumb ? '<img src="' + esc(show.thumb) + '" alt="">' : '<span class="tile-name">' + esc(show.name) + '</span>') + '<span class="tile-stripe" aria-hidden="true"></span></div>' +
+      '<div class="tile-meta"><strong>' + esc(show.name) + '</strong><span>' + show.products.length + ' shirts · Shop now</span></div></a>';
+  }
+
+  function renderHome() {
+    applyTheme(HOME);
+    document.title = "PodcastTShirts.com";
+    selectTab("home");
+    var live = SHOWS.filter(function (s) { return !s.comingSoon; }).length;
+    app.innerHTML =
+      '<div class="pod"><div class="wrap"><strong>Locally made in Orlando</strong><span>' + esc(SITE.podNote) + '</span></div></div>' +
+      '<section class="mast hero"><div class="wrap mast-grid"><div class="mast-copy"><span class="eyebrow">PodcastTShirts.com · Orlando, Florida</span>' +
+      '<h1>Locally sourced tees from locally sourced podcasts.</h1>' +
+      '<p>Merch for the podcasts made around Orlando, printed to order right here in Orlando. Find your show, pick a shirt, and wear the voices you listen to every week. New shows join the lineup all the time.</p>' +
+      '<p><a class="btn hero-btn" href="#shows">Browse the shows</a></p></div>' + stamp() + '</div><div class="swash" aria-hidden="true"></div></section>' +
+      '<section class="products wrap" id="shows" aria-labelledby="shows-h"><div class="section-head"><span class="eyebrow">The lineup</span><h2 id="shows-h">Pick a podcast</h2>' +
+      '<p class="hint">' + live + ' show' + (live === 1 ? '' : 's') + ' open now. More coming soon.</p></div>' +
+      '<div class="tiles">' + SHOWS.map(tile).join("") + '</div></section>' +
+      orlando() +
+      '<div class="showfoot"><div class="wrap"><span>© 2026 PodcastTShirts.com · Made in Orlando, FL</span><span>Questions? <span class="mail">' + esc(SITE.contactEmail) + '</span><button type="button" class="copy" data-copy="' + esc(SITE.contactEmail) + '">Copy</button></span></div></div>';
+    app.querySelector('.hero-btn').addEventListener("click", function (e) { e.preventDefault(); document.getElementById("shows").scrollIntoView({ behavior: "smooth" }); });
+  }
+
+  function render(show) {
+    applyTheme(show);
+    document.title = show.title + " · PodcastTShirts.com";
+    selectTab(show.id);
+    var sel = document.getElementById("tab-" + show.id); try { sel.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e) {}
+    var has = show.products.length > 0;
+    app.innerHTML =
+      '<div class="pod"><div class="wrap"><strong>Locally made in Orlando</strong><span>' + esc(SITE.podNote) + '</span></div></div>' +
+      '<section class="mast"><div class="wrap mast-grid"><div class="mast-copy"><span class="eyebrow">' + (show.comingSoon ? "Coming soon · Made in Orlando" : "Official store · Made in Orlando") + '</span><h1>' + (show.headerLogo ? '<img class="mast-logo" src="' + esc(show.headerLogo) + '" alt="' + esc(show.title) + '">' : esc(show.title)) + '</h1><p>' + esc(show.intro) + '</p></div>' + stamp() + '</div><div class="swash" aria-hidden="true"></div></section>' +
+      '<section class="products wrap" aria-labelledby="shop-h"><div class="section-head"><span class="eyebrow">' + (show.comingSoon ? "New show" : "The shirts") + '</span><h2 id="shop-h">' + (has ? "Pick your tee" : "Merch is on the way") + '</h2></div>' +
+      (has ? '<div class="grid">' + show.products.map(productCard).join("") + '</div>'
+           : '<div class="soon"><h3>Shirts coming soon</h3><p>This show\u2019s merch is being designed right now. Check back soon, or email us to hear when it drops.</p><p><span class="mail">' + esc(SITE.contactEmail) + '</span><button type="button" class="copy" data-copy="' + esc(SITE.contactEmail) + '">Copy</button></p></div>') +
+      '</section>' + orlando() + (has ? orderSection(show) : "") +
+      '<div class="showfoot"><div class="wrap"><span>© 2026 ' + esc(show.copyright) + ' · Made in Orlando, FL</span><span>Questions? <span class="mail">' + esc(SITE.contactEmail) + '</span><button type="button" class="copy" data-copy="' + esc(SITE.contactEmail) + '">Copy</button></span></div></div>';
+    if (has) initOrder(show);
+  }
+
+  function initOrder(show) {
+    var $ = function (id) { return document.getElementById(id); };
+    var byId = {}; show.products.forEach(function (p) { byId[p.id] = p; });
+    var st = { shirt: show.products[0].id, size: show.products[0].def || show.products[0].sizes[0], qty: 1, delivery: "ship" };
+
+    function renderSizes() {
+      var p = byId[st.shirt], box = $("sizeChoices");
+      if (p.sizes.indexOf(st.size) < 0) st.size = p.def || p.sizes[0];
+      box.innerHTML = p.sizes.map(function (s) { return '<div class="choice"><input type="radio" name="size" id="size-' + esc(s) + '" value="' + esc(s) + '"' + (s === st.size ? " checked" : "") + '><label for="size-' + esc(s) + '">' + esc(s) + '</label></div>'; }).join("");
+      $("sizeHint").textContent = p.hint || ""; $("sizeHint").hidden = !p.hint;
+      if (st.qty > (p.maxQty || 5)) st.qty = p.maxQty || 5;
+    }
+    function f() { var o = {}; ["first","last","email","phone","addr1","addr2","city","state","zip","country","notes"].forEach(function (k) { o[k] = $(k).value.trim(); }); return o; }
+    function shipCost() { return st.delivery === "ship" ? show.shipping : 0; }
+    function paypalUrl() {
+      var v = f(), p = byId[st.shirt], pk = st.delivery === "pickup";
+      var params = { cmd: "_xclick", business: SITE.paypalEmail, currency_code: "USD",
+        item_name: (show.name + " - " + p.name + " - Size " + st.size + (pk ? " - LOCAL PICKUP" : "")).slice(0, 127),
+        item_number: (show.id + "-" + p.id + "-" + st.size).toUpperCase(),
+        amount: Number(p.price).toFixed(2), quantity: String(st.qty), shipping: shipCost().toFixed(2), no_shipping: pk ? "1" : "2",
+        on0: "Size", os0: st.size, first_name: v.first, last_name: v.last, email: v.email,
+        address1: pk ? "" : v.addr1, address2: pk ? "" : v.addr2, city: pk ? "" : v.city, state: pk ? "" : v.state, zip: pk ? "" : v.zip, country: pk ? "" : v.country,
+        custom: ((pk ? "LOCAL PICKUP | " : "") + "Phone: " + (v.phone || "n/a") + " | Notes: " + (v.notes || "none")).slice(0, 255) };
+      return "https://www.paypal.com/cgi-bin/webscr?" + Object.keys(params).filter(function (k) { return params[k] !== ""; }).map(function (k) { return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]); }).join("&");
+    }
+    function update() {
+      var p = byId[st.shirt], pk = st.delivery === "pickup", max = p.maxQty || 5;
+      $("qtyOut").textContent = st.qty; $("qtyMinus").disabled = st.qty <= 1; $("qtyPlus").disabled = st.qty >= max;
+      $("sumImg").src = p.images[0]; $("sumName").textContent = p.name;
+      $("sumMeta").textContent = "Size " + st.size + " · Qty " + st.qty + (pk ? " · Pickup" : "");
+      $("sumSub").textContent = money(p.price * st.qty);
+      $("shipLabel").textContent = pk ? "Pickup" : "Shipping & handling";
+      $("sumShip").textContent = pk ? "Free" : money(show.shipping);
+      $("sumTotal").textContent = money(p.price * st.qty + shipCost());
+      $("addrBlock").hidden = pk; if ($("pickupHint")) $("pickupHint").hidden = !pk;
+      $("detailsTitle").textContent = pk ? "Your details" : "Shipping details";
+      $("payBtn").href = paypalUrl();
+    }
+    var REQ = ["first","last","email","addr1","city","state","zip"];
+    function validate() {
+      var bad = null, need = st.delivery === "pickup" ? REQ.slice(0, 3) : REQ;
+      REQ.forEach(function (id) {
+        var el = $(id), w = el.closest(".field"), v = el.value.trim(), check = need.indexOf(id) >= 0;
+        var ok = !check || (v !== "" && (id !== "email" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)));
+        w.classList.toggle("bad", !ok);
+        var e = w.querySelector(".err");
+        if (!ok && !e) { e = document.createElement("span"); e.className = "err"; w.appendChild(e); }
+        if (e) { e.textContent = ok ? "" : (v === "" ? "Fill this in so we can get your shirt to you." : "Enter an email like name@example.com."); e.hidden = ok; }
+        el.setAttribute("aria-invalid", ok ? "false" : "true");
+        if (!ok && !bad) bad = el;
+      });
+      return bad;
+    }
+    $("payBtn").addEventListener("click", function (ev) {
+      var bad = validate();
+      if (bad) { ev.preventDefault(); $("formMsg").textContent = "A few details are missing. Fill in the highlighted fields, then tap Pay with PayPal again."; $("formMsg").hidden = false; bad.focus(); bad.scrollIntoView({ block: "center", behavior: "smooth" }); }
+      else { $("formMsg").hidden = true; this.href = paypalUrl(); }
+    });
+    var form = $("orderForm");
+    form.addEventListener("change", function (e) {
+      if (e.target.name === "shirt") { st.shirt = e.target.value; renderSizes(); }
+      if (e.target.name === "size") st.size = e.target.value;
+      if (e.target.name === "delivery") { st.delivery = e.target.value; if (!$("formMsg").hidden) validate(); }
+      update();
+    });
+    form.addEventListener("input", function (e) { var w = e.target.closest(".field"); if (w && w.classList.contains("bad")) validate(); update(); });
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+    $("qtyMinus").addEventListener("click", function () { if (st.qty > 1) { st.qty--; update(); } });
+    $("qtyPlus").addEventListener("click", function () { if (st.qty < (byId[st.shirt].maxQty || 5)) { st.qty++; update(); } });
+    app.querySelectorAll("[data-pick]").forEach(function (a) {
+      a.addEventListener("click", function (ev) {
+        ev.preventDefault(); var id = a.dataset.pick; $("shirt-" + id).checked = true; st.shirt = id; renderSizes(); update();
+        document.getElementById("order").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+    renderSizes(); update();
+  }
+
+  app.addEventListener("click", function (e) {
+    var t = e.target.closest(".thumbs button");
+    if (t) { document.getElementById(t.dataset.main).src = t.dataset.src; t.parentNode.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", b === t ? "true" : "false"); }); }
+    var c = e.target.closest(".copy");
+    if (c) {
+      var txt = c.dataset.copy, done = function () { c.textContent = "Copied"; setTimeout(function () { c.textContent = "Copy"; }, 1500); };
+      var fallback = function () { var m = c.previousElementSibling; if (m) { var r = document.createRange(); r.selectNodeContents(m); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } c.textContent = "Selected"; };
+      try { navigator.clipboard.writeText(txt).then(done, fallback); } catch (err) { fallback(); }
+    }
+  });
+
+  function route() {
+    var id = (location.hash || "").slice(1);
+    if (id === "order" || id === "shows") return;
+    var show = SHOWS.filter(function (s) { return s.id === id; })[0];
+    var key = show ? show.id : "home";
+    if (state.current === key) return;
+    state.current = key; if (show) render(show); else renderHome(); window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+  route();
+};
+</script>
+<script src="/shop-edit.js"></script>
+
+</body>
+</html>
