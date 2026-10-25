@@ -62,7 +62,12 @@
           var base = orig[p && p.id] || (p && p.copyOf && orig[p.copyOf]) || null;
           var cp = cleanProduct(p, base); if (!cp || seen[cp.id]) return null; seen[cp.id] = 1; return cp;
         }).filter(Boolean).slice(0, 24);
-        if (list.length) show.products = list;
+        if (list.length) {
+          // shirts added to the code after this save still appear; shirts removed in the editor stay removed
+          var known = Array.isArray(o.knownIds) ? o.knownIds : o.products.map(function (p) { return p && p.id; });
+          ORIGINAL.shows[i].products.forEach(function (p) { if (known.indexOf(p.id) < 0 && !seen[p.id]) list.push(clone(p)); });
+          show.products = list;
+        }
       }
     });
   }
@@ -251,6 +256,7 @@
           if (p.swatch) out.swatch = p.swatch; if (p.card) out.card = p.card; if (p.badgeStyle) out.badgeStyle = p.badgeStyle;
           return out;
         });
+        o.knownIds = (ORIGINAL.shows.filter(function (x) { return x.id === show.id; })[0] || { products: [] }).products.map(function (p) { return p.id; });
         var bad = o.products.filter(function (p) { return !String(p.name || "").trim() || !(Number(p.price) >= 0) || String(p.price).trim() === ""; });
         if (bad.length) { msg.textContent = "Every shirt needs a name and a price."; btn.disabled = false; return; }
         next.shows[show.id] = o;
