@@ -85,7 +85,7 @@ a { color: inherit; }
 /* Splash */
 .hero h1 { font-size: clamp(2.3rem, 6.4vw, 4.6rem); line-height: 1.0; max-width: 15ch; }
 .hero .btn { background: var(--eyebrow-head); color: var(--head-bg); box-shadow: 4px 4px 0 var(--s1); margin-top: .5rem; }
-.mast-logo { display: block; width: min(100%, 560px); height: auto; margin: .2rem 0 .4rem; }
+.mast-logo { display: block; width: min(100%, 560px); height: auto; margin: .2rem 0 .4rem; border-radius: var(--radius); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 1.25rem; }
 @media (min-width: 700px) { .tiles { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } }
 .tile { display: grid; gap: .7rem; text-decoration: none; color: var(--ink); }
@@ -124,6 +124,7 @@ a { color: inherit; }
 .sizes-inline span { font-weight: 700; font-size: .85rem; border: 1.5px solid currentColor; border-radius: 8px; padding: .15rem .55rem; }
 .btn { appearance: none; border: 0; cursor: pointer; font: 800 1rem var(--body); letter-spacing: .02em; border-radius: 999px; padding: .85rem 1.4rem; background: var(--btn-bg); color: var(--btn-ink); text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: .5rem; transition: transform .12s ease, box-shadow .12s ease; box-shadow: 4px 4px 0 var(--btn-shadow); }
 .card .btn { background: var(--cb-bg, var(--btn-bg)); color: var(--cb-ink, var(--btn-ink)); }
+.card .btn-soon { opacity: .75; cursor: default; box-shadow: none; }
 .btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--btn-shadow); }
 .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--btn-shadow); }
 
@@ -308,6 +309,42 @@ var SHOWS = [
     ]
   },
   {
+    id: "oh-no-wrestling",
+    name: "Oh No Wrestling",
+    title: "Oh No Wrestling Merch",
+    intro: "Tees for wrestling fans who love the spectacle as much as the storylines. Designs are dropping soon. Once they're here, pick a shirt, choose shipping or free pickup (arrange pickup via email at ohnomediaowen@gmail.com ORLANDO AREA ONLY), and pay securely with PayPal",
+    copyright: "OH NO WRESTLING",
+    headerLogo: "img/ohno-wrestling-header.jpg",
+    thumb: "img/ohno-wrestling-tile.jpg",
+    dot: "#2f6fe0",
+    shipping: 6.00,
+    pickup: { label: "Pick up in person \u00b7 Free (Orlando area only)", note: "Orlando area only. No shipping charge. After you pay, email ohnomediaowen@gmail.com to arrange a time and place to pick up your shirt." },
+    theme: {
+      page: "#f6ead2", ink: "#0f2a66", muted: "#4d5a7a", line: "#d8c9a6", field: "#fffaf0",
+      "head-bg": "#1f4fb4", "head-ink": "#f6ead2", eyebrow: "#e2471f", "eyebrow-head": "#f6ead2",
+      s1: "#e2471f", s2: "#f08a2b", s3: "#6fb3e8", "swash-h": "12px",
+      "btn-bg": "#1f4fb4", "btn-ink": "#f6ead2", "btn-shadow": "#e2471f",
+      "ticket-bg": "#1f4fb4", "ticket-ink": "#f6ead2", "tbtn-bg": "#f6ead2", "tbtn-ink": "#1f4fb4",
+      focus: "#e2471f", "title-shadow": "4px 4px 0 #e2471f", radius: "16px",
+      display: "\"Shrikhand\", \"Archivo Black\", Georgia, serif", "display-weight": "400", "display-case": "none", "display-track": "0",
+      body: "\"Karla\", \"Helvetica Neue\", Arial, sans-serif"
+    },
+    products: [
+      { id: "wrestling-1", placeholder: true, name: "Oh No Wrestling Tee #1", short: "Wrestling Tee #1", choice: "Wrestling Tee #1", swatch: "#1f4fb4", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        badge: "Coming soon", desc: "First Oh No Wrestling design. The artwork is on its way.",
+        images: ["img/ohno-wrestling-placeholder-1.jpg"], alt: "Placeholder: royal blue shirt, design coming soon",
+        card: { bg: "#1f4fb4", ink: "#f6ead2", muted: "#d9e2f5", btnBg: "#f6ead2", btnInk: "#1f4fb4" } },
+      { id: "wrestling-2", placeholder: true, name: "Oh No Wrestling Tee #2", short: "Wrestling Tee #2", choice: "Wrestling Tee #2", swatch: "#f6ead2", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        badge: "Coming soon", desc: "Second Oh No Wrestling design. The artwork is on its way.",
+        images: ["img/ohno-wrestling-placeholder-2.jpg"], alt: "Placeholder: cream shirt, design coming soon",
+        card: { bg: "#fffaf0", ink: "#0f2a66", muted: "#4d5a7a", border: "#d8c9a6" } },
+      { id: "wrestling-3", placeholder: true, name: "Oh No Wrestling Tee #3", short: "Wrestling Tee #3", choice: "Wrestling Tee #3", swatch: "#142c6b", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+        badge: "Coming soon", desc: "Third Oh No Wrestling design. The artwork is on its way.",
+        images: ["img/ohno-wrestling-placeholder-3.jpg"], alt: "Placeholder: navy shirt, design coming soon",
+        card: { bg: "#142c6b", ink: "#f6ead2", muted: "#c9d3ea", btnBg: "#f08a2b", btnInk: "#142c6b" } }
+    ]
+  },
+  {
     id: "soon-2",
     comingSoon: true,
     name: "Coming soon",
@@ -393,7 +430,7 @@ window.__startShop = function () {
       '<div class="card-row"><h3>' + esc(p.short || p.name) + '</h3><span class="price">' + money(p.price) + '</span></div>' +
       '<p>' + esc(p.desc) + '</p>' + (p.note ? '<p class="note">' + esc(p.note) + '</p>' : "") +
       '<div class="sizes-inline" aria-label="Sizes available">' + (p.sizes.length === 1 ? '<span>' + esc(p.sizes[0]) + ' only</span>' : p.sizes.map(function (z) { return '<span>' + esc(z) + '</span>'; }).join("")) + '</div>' +
-      '<a class="btn" href="#order" data-pick="' + esc(p.id) + '">' + esc(p.cta || "Order this tee") + '</a></article>';
+      (p.placeholder ? '<span class="btn btn-soon" aria-disabled="true">Design coming soon</span>' : '<a class="btn" href="#order" data-pick="' + esc(p.id) + '">' + esc(p.cta || "Order this tee") + '</a>') + '</article>';
   }
 
   function stamp() {
@@ -460,7 +497,7 @@ window.__startShop = function () {
     }
     return '<a class="tile" href="#' + esc(show.id) + '" style="' + style + '"><div class="art">' +
       (show.logo ? '<img class="tile-logo" src="' + esc(show.logo) + '" alt="' + esc(show.name) + ' logo">' : show.thumb ? '<img src="' + esc(show.thumb) + '" alt="">' : '<span class="tile-name">' + esc(show.name) + '</span>') + '<span class="tile-stripe" aria-hidden="true"></span></div>' +
-      '<div class="tile-meta"><strong>' + esc(show.name) + '</strong><span>' + show.products.length + ' shirts · Shop now</span></div></a>';
+      '<div class="tile-meta"><strong>' + esc(show.name) + '</strong><span>' + (show.products.some(function (p) { return !p.placeholder; }) ? show.products.filter(function (p) { return !p.placeholder; }).length + ' shirts · Shop now' : 'Shirts coming soon') + '</span></div></a>';
   }
 
   function renderHome() {
@@ -488,15 +525,17 @@ window.__startShop = function () {
     selectTab(show.id);
     var sel = document.getElementById("tab-" + show.id); try { sel.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e) {}
     var has = show.products.length > 0;
+    var sell = show.products.filter(function (p) { return !p.placeholder; });
+    var shop = sell.length ? Object.assign({}, show, { products: sell }) : null;
     app.innerHTML =
       '<div class="pod"><div class="wrap"><strong>Locally made in Orlando</strong><span>' + esc(SITE.podNote) + '</span></div></div>' +
       '<section class="mast"><div class="wrap mast-grid"><div class="mast-copy"><span class="eyebrow">' + (show.comingSoon ? "Coming soon · Made in Orlando" : "Official store · Made in Orlando") + '</span><h1>' + (show.headerLogo ? '<img class="mast-logo" src="' + esc(show.headerLogo) + '" alt="' + esc(show.title) + '">' : esc(show.title)) + '</h1><p>' + esc(show.intro) + '</p></div>' + stamp() + '</div><div class="swash" aria-hidden="true"></div></section>' +
       '<section class="products wrap" aria-labelledby="shop-h"><div class="section-head"><span class="eyebrow">' + (show.comingSoon ? "New show" : "The shirts") + '</span><h2 id="shop-h">' + (has ? "Pick your tee" : "Merch is on the way") + '</h2></div>' +
       (has ? '<div class="grid">' + show.products.map(productCard).join("") + '</div>'
            : '<div class="soon"><h3>Shirts coming soon</h3><p>This show\u2019s merch is being designed right now. Check back soon, or email us to hear when it drops.</p><p><span class="mail">' + esc(SITE.contactEmail) + '</span><button type="button" class="copy" data-copy="' + esc(SITE.contactEmail) + '">Copy</button></p></div>') +
-      '</section>' + orlando() + (has ? orderSection(show) : "") +
+      '</section>' + orlando() + (shop ? orderSection(shop) : "") +
       '<div class="showfoot"><div class="wrap"><span>© 2026 ' + esc(show.copyright) + ' · Made in Orlando, FL</span><span>Questions? <span class="mail">' + esc(SITE.contactEmail) + '</span><button type="button" class="copy" data-copy="' + esc(SITE.contactEmail) + '">Copy</button></span></div></div>';
-    if (has) initOrder(show);
+    if (shop) initOrder(shop);
   }
 
   function initOrder(show) {
