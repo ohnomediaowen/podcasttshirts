@@ -1,3 +1,9 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
+
+# Short link for the Tech Shirts section (techshirts.us forwards here)
+[[redirects]]
+  from = "/tech"
+  to = "/#tech-shirts"
+  status = 301
