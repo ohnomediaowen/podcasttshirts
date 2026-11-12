@@ -276,7 +276,7 @@
       field("Name (tabs and tile)", "name", s.name) +
       field("Page title", "title", s.title) +
       field("Intro text", "intro", s.intro, "textarea") +
-      field("Shipping price ($)", "shipping", s.shipping, "number") +
+      '<p class="help">Shipping is set for the whole site by number of shirts: $' + (window.SITE.shippingTiers || []).join(", $") + ' (SITE.shippingTiers in index.html).</p>' +
       (s.pickup ? field("Pickup option label", "pickup.label", s.pickup.label) + field("Pickup note", "pickup.note", s.pickup.note, "textarea") : "") +
       field("Footer name (© line)", "copyright", s.copyright);
     if (s.thumb || s.logo || s.headerLogo) {
@@ -288,13 +288,13 @@
     }
     h += '<h3>Shirts</h3><p class="help">Click a shirt to edit it. Use “Add a shirt like this” to create a new one.</p>';
     s.products.forEach(function (p, i) {
-      h += '<details><summary><img src="' + esc(p.images[0]) + '" alt="">' + esc(p.short || p.name) + "</summary><div>" +
+      h += '<details><summary><img src="' + esc(p.images[0]) + '" alt="">' + esc(p.short || p.name) + " · $" + esc(Number(p.price).toFixed(2)) + "</summary><div>" +
         '<div class="pe-img" style="margin-top:8px"><img src="' + esc(p.images[0]) + '" alt=""><button data-a="img" data-target="product" data-pi="' + i + '">Replace photo</button></div>' +
         field("Full name (order details)", "p." + i + ".name", p.name) +
         field("Card name (short)", "p." + i + ".short", p.short || "") +
         field("Order-form label", "p." + i + ".choice", p.choice || "") +
         field("Description", "p." + i + ".desc", p.desc, "textarea") +
-        '<p class="help">Price is set for the whole site: $' + ((window.SITE.pricing || {}).first || 26) + ' for the first shirt, $' + ((window.SITE.pricing || {}).additional || 24) + ' for each additional shirt (SITE.pricing in index.html).</p>' +
+        field("Price ($)", "p." + i + ".price", p.price, "number") +
         "<label>Sizes</label><div class=\"pe-sizes\">" + ALL_SIZES.map(function (z) {
           return '<label><input type="checkbox" data-pi="' + i + '" data-size="' + z + '"' + (p.sizes.indexOf(z) >= 0 ? " checked" : "") + ">" + z + "</label>";
         }).join("") + "</div>" +

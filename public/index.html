@@ -239,9 +239,11 @@ var SITE = {
   contactEmail: "ohnomediaowen@gmail.com",
   podNote: "Every shirt is printed on demand, locally in Orlando, Florida. Printing, shipping and processing take a few weeks.",
   madeIn: "Orlando, FL",
-  // Site-wide shirt pricing: the first shirt in the cart costs `first`,
-  // every shirt after that costs `additional` (any show, any design).
-  pricing: { first: 26, additional: 24 }
+  // Multi-shirt deal: every shirt after the first in the cart is this many
+  // dollars off its own price (any show, any design).
+  multiDiscount: 2,
+  // Shipping for the whole order by number of shirts: 1, 2, 3, 4 or more.
+  shippingTiers: [6, 9, 11, 12]
 };
 
 /* =====================================================================
@@ -313,27 +315,27 @@ var SHOWS = [
       body: "\"DM Sans\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "scotch-logo-white", name: "Scotch and “Good” Conversation Logo Tee (White)", short: "Logo Tee, White", choice: "White logo tee", swatch: "#faf9f6", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "scotch-logo-white", name: "Scotch and “Good” Conversation Logo Tee (White)", short: "Logo Tee, White", choice: "White logo tee", swatch: "#faf9f6", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Crisp white tee with the typewriter Scotch and “good” Conversation logo across the chest, red “good” and all.",
         images: ["img/scotch-logo-tee-white.jpg"], alt: "White t-shirt with the Scotch and good Conversation typewriter logo",
         card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white logo tee" },
-      { id: "scotch-logo-black", name: "Scotch and “Good” Conversation Logo Tee (Black)", short: "Logo Tee, Black", choice: "Black logo tee", swatch: "#161922", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "scotch-logo-black", name: "Scotch and “Good” Conversation Logo Tee (Black)", short: "Logo Tee, Black", choice: "Black logo tee", swatch: "#161922", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee with the logo printed in white, and that red “good” doing the heavy lifting.",
         images: ["img/scotch-logo-tee-black.jpg"], alt: "Black t-shirt with the Scotch and good Conversation logo in white",
         card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black logo tee" },
-      { id: "corporate-white", name: "Corporate Podcasts Still Suck Tee (White)", short: "Corporate Podcasts Tee, White", choice: "White “Corporate Podcasts”", swatch: "#faf9f6", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "corporate-white", name: "Corporate Podcasts Still Suck Tee (White)", short: "Corporate Podcasts Tee, White", choice: "White “Corporate Podcasts”", swatch: "#faf9f6", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "White tee, distressed black letters, one honest opinion. Small scotchandgoodconversation.com under the punchline.",
         images: ["img/corporate-tee-white.jpg"], alt: "White t-shirt reading Corporate podcasts still suck",
         card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white tee" },
-      { id: "corporate-black", name: "Corporate Podcasts Still Suck Tee (Black)", short: "Corporate Podcasts Tee, Black", choice: "Black “Corporate Podcasts”", swatch: "#161922", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "corporate-black", name: "Corporate Podcasts Still Suck Tee (Black)", short: "Corporate Podcasts Tee, Black", choice: "Black “Corporate Podcasts”", swatch: "#161922", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee with weathered white letters. Still true, still printed in Orlando.",
         images: ["img/corporate-tee-black.jpg"], alt: "Black t-shirt reading Corporate podcasts still suck in white",
         card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black tee" },
-      { id: "conversation-black", name: "Conversation Tee (Black)", short: "Conversation Tee, Black", choice: "Black \u201cConversation\u201d", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "conversation-black", name: "Conversation Tee (Black)", short: "Conversation Tee, Black", choice: "Black \u201cConversation\u201d", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee with a bold white CONVERSATION and two stars, scotchandgoodconversation.com underneath.",
         images: ["img/conversation-tee-black.webp"], alt: "Black t-shirt reading Conversation in bold white letters with stars",
         card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black tee" },
-      { id: "conversation-white", name: "Conversation Tee (White)", short: "Conversation Tee, White", choice: "White \u201cConversation\u201d", swatch: "#faf9f6", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "conversation-white", name: "Conversation Tee (White)", short: "Conversation Tee, White", choice: "White \u201cConversation\u201d", swatch: "#faf9f6", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "White tee with a bold black CONVERSATION and two stars, scotchandgoodconversation.com underneath.",
         images: ["img/conversation-tee-white.webp"], alt: "White t-shirt reading Conversation in bold black letters with stars",
         card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white tee" }
@@ -361,15 +363,15 @@ var SHOWS = [
       body: "\"Karla\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "wrestling-blue", name: "Oh No Wrestling Logo Tee (Royal Blue)", short: "Logo Tee, Royal Blue", choice: "Royal blue logo tee", swatch: "#2a63c9", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "wrestling-blue", name: "Oh No Wrestling Logo Tee (Royal Blue)", short: "Logo Tee, Royal Blue", choice: "Royal blue logo tee", swatch: "#2a63c9", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Royal blue tee with the retro Oh No Wrestling script logo riding a red, orange, cream and sky-blue stripe.",
         images: ["img/ohno-wrestling-tee-blue.jpg"], alt: "Royal blue t-shirt with the retro Oh No Wrestling logo and rainbow stripe",
         card: { bg: "#1f4fb4", ink: "#f6ead2", muted: "#d9e2f5", btnBg: "#f6ead2", btnInk: "#1f4fb4" }, cta: "Order the royal blue tee" },
-      { id: "wrestling-cream", name: "Oh No Wrestling Logo Tee (Cream)", short: "Logo Tee, Cream", choice: "Cream logo tee", swatch: "#f5e6cc", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "wrestling-cream", name: "Oh No Wrestling Logo Tee (Cream)", short: "Logo Tee, Cream", choice: "Cream logo tee", swatch: "#f5e6cc", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Cream tee with the retro Oh No Wrestling script logo and its navy, red, orange and blue stripe.",
         images: ["img/ohno-wrestling-tee-cream.jpg"], alt: "Cream t-shirt with the retro Oh No Wrestling logo and rainbow stripe",
         card: { bg: "#fffaf0", ink: "#0f2a66", muted: "#4d5a7a", border: "#d8c9a6" }, cta: "Order the cream tee" },
-      { id: "wrestling-pro", name: "Pro Science, Pro Choice, Pro Wrestling Tee (Black)", short: "Pro Wrestling Tee, Black", choice: "Black \u201cPro Wrestling\u201d tee", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "wrestling-pro", name: "Pro Science, Pro Choice, Pro Wrestling Tee (Black)", short: "Pro Wrestling Tee, Black", choice: "Black \u201cPro Wrestling\u201d tee", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, bold white letters: Pro science. Pro choice. Pro wrestling.",
         images: ["img/ohno-wrestling-tee-pro-choice.jpg"], alt: "Black t-shirt reading Pro science, Pro choice, Pro wrestling in bold white letters",
         card: { bg: "#141414", ink: "#f6ead2", muted: "#c9c2b2", btnBg: "#f6ead2", btnInk: "#141414" }, cta: "Order the black tee" }
@@ -398,11 +400,11 @@ var SHOWS = [
       body: "\"Archivo\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "fat-tom-guy", name: "I'm a Fat Tom Guy Tee (Black)", short: "I'm a Fat Tom Guy", choice: "I'm a Fat Tom Guy", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "fat-tom-guy", name: "I'm a Fat Tom Guy Tee (Black)", short: "I'm a Fat Tom Guy", choice: "I'm a Fat Tom Guy", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, big distressed white letters: I'M A FAT TOM GUY.",
         images: ["img/inspired-fat-tom-guy.jpg"], alt: "Black t-shirt reading I'm a Fat Tom guy in distressed white letters",
         card: { bg: "#161616", ink: "#ffffff", muted: "#c9c9c9", border: "#2c2c2c", btnBg: "#cc5500", btnInk: "#ffffff" }, cta: "Order the Fat Tom tee" },
-      { id: "kenny-guy", name: "I'm a Kenny Guy Tee (Black)", short: "I'm a Kenny Guy", choice: "I'm a Kenny Guy", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "kenny-guy", name: "I'm a Kenny Guy Tee (Black)", short: "I'm a Kenny Guy", choice: "I'm a Kenny Guy", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, big distressed white letters: I'M A KENNY GUY.",
         images: ["img/inspired-kenny-guy.jpg"], alt: "Black t-shirt reading I'm a Kenny guy in distressed white letters",
         card: { bg: "#161616", ink: "#ffffff", muted: "#c9c9c9", border: "#2c2c2c", btnBg: "#cc5500", btnInk: "#ffffff" }, cta: "Order the Kenny tee" }
@@ -430,27 +432,27 @@ var SHOWS = [
       body: "\"Archivo\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "boo-hole-black", name: "Get Back in Your Boo Hole Tee (Black)", short: "Boo Hole Tee, Black", choice: "Black “Boo Hole”", swatch: "#0e0e0f", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "boo-hole-black", name: "Get Back in Your Boo Hole Tee (Black)", short: "Boo Hole Tee, Black", choice: "Black “Boo Hole”", swatch: "#0e0e0f", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, bold white letters, and two jack-o’-lanterns standing in for the O’s in boo.",
         images: ["img/tech-boo-hole-black.jpg"], alt: "Black t-shirt reading Get back in your boo hole, with jack-o-lanterns as the O's in boo",
         card: { bg: "#0e0e0f", ink: "#ffffff", muted: "#c4c4c4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the black tee" },
-      { id: "boo-hole-gray", name: "Get Back in Your Boo Hole Tee (Dark Gray)", short: "Boo Hole Tee, Dark Gray", choice: "Dark gray “Boo Hole”", swatch: "#3d3e42", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "boo-hole-gray", name: "Get Back in Your Boo Hole Tee (Dark Gray)", short: "Boo Hole Tee, Dark Gray", choice: "Dark gray “Boo Hole”", swatch: "#3d3e42", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Dark gray tee, bold white letters, and two jack-o’-lanterns standing in for the O’s in boo.",
         images: ["img/tech-boo-hole-darkgray.jpg"], alt: "Dark gray t-shirt reading Get back in your boo hole, with jack-o-lanterns as the O's in boo",
         card: { bg: "#3d3e42", ink: "#ffffff", muted: "#d4d4d4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the dark gray tee" },
-      { id: "bigger-shows-black", name: "I’ve Fucked Up Bigger Shows Than This Tee (Black)", short: "Bigger Shows Tee, Black", choice: "Black “Bigger Shows”", swatch: "#0e0e0f", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-black", name: "I’ve Fucked Up Bigger Shows Than This Tee (Black)", short: "Bigger Shows Tee, Black", choice: "Black “Bigger Shows”", swatch: "#0e0e0f", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, bold white letters: I’ve fucked up bigger shows than this.",
         images: ["img/tech-bigger-shows-black.jpg"], alt: "Black t-shirt reading I've fucked up bigger shows than this in bold white letters",
         card: { bg: "#0e0e0f", ink: "#ffffff", muted: "#c4c4c4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the black tee" },
-      { id: "bigger-shows-gray", name: "I’ve Fucked Up Bigger Shows Than This Tee (Dark Gray)", short: "Bigger Shows Tee, Dark Gray", choice: "Dark gray “Bigger Shows”", swatch: "#3d3e42", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-gray", name: "I’ve Fucked Up Bigger Shows Than This Tee (Dark Gray)", short: "Bigger Shows Tee, Dark Gray", choice: "Dark gray “Bigger Shows”", swatch: "#3d3e42", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Dark gray tee, bold white letters: I’ve fucked up bigger shows than this.",
         images: ["img/tech-bigger-shows-darkgray.jpg"], alt: "Dark gray t-shirt reading I've fucked up bigger shows than this in bold white letters",
         card: { bg: "#3d3e42", ink: "#ffffff", muted: "#d4d4d4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the dark gray tee" },
-      { id: "bigger-shows-clean-black", name: "I’ve F***** Up Bigger Shows Than This Tee (Black, Censored)", short: "Bigger Shows Tee (Censored), Black", choice: "Black “Bigger Shows” censored", swatch: "#0e0e0f", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-clean-black", name: "I’ve F***** Up Bigger Shows Than This Tee (Black, Censored)", short: "Bigger Shows Tee (Censored), Black", choice: "Black “Bigger Shows” censored", swatch: "#0e0e0f", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "The work-friendly version. Black tee, bold white letters: I’ve f***** up bigger shows than this.",
         images: ["img/tech-bigger-shows-censored-black.jpg"], alt: "Black t-shirt reading I've f***** up bigger shows than this in bold white letters",
         card: { bg: "#0e0e0f", ink: "#ffffff", muted: "#c4c4c4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the black tee" },
-      { id: "bigger-shows-clean-gray", name: "I’ve F***** Up Bigger Shows Than This Tee (Dark Gray, Censored)", short: "Bigger Shows Tee (Censored), Dark Gray", choice: "Dark gray “Bigger Shows” censored", swatch: "#3d3e42", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-clean-gray", name: "I’ve F***** Up Bigger Shows Than This Tee (Dark Gray, Censored)", short: "Bigger Shows Tee (Censored), Dark Gray", choice: "Dark gray “Bigger Shows” censored", swatch: "#3d3e42", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "The work-friendly version. Dark gray tee, bold white letters: I’ve f***** up bigger shows than this.",
         images: ["img/tech-bigger-shows-censored-darkgray.jpg"], alt: "Dark gray t-shirt reading I've f***** up bigger shows than this in bold white letters",
         card: { bg: "#3d3e42", ink: "#ffffff", muted: "#d4d4d4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the dark gray tee" }
@@ -539,10 +541,10 @@ window.__startShop = function () {
     return '<article class="card" style="' + style + '">' +
       (p.badge ? '<span class="badge">' + esc(p.badge) + '</span>' : "") +
       '<div class="photo"><img id="main-' + esc(p.id) + '" src="' + esc(p.images[0]) + '" alt="' + esc(p.alt) + '" width="1200" height="1200"></div>' + thumbs +
-      '<div class="card-row"><h3>' + esc(p.short || p.name) + '</h3><span class="price">' + money(PR.first) + '</span></div>' +
+      '<div class="card-row"><h3>' + esc(p.short || p.name) + '</h3><span class="price">' + money(p.price) + '</span></div>' +
       '<p>' + esc(p.desc) + '</p>' + (p.note ? '<p class="note">' + esc(p.note) + '</p>' : "") +
       '<div class="sizes-inline" aria-label="Sizes available">' + (p.sizes.length === 1 ? '<span>' + esc(p.sizes[0]) + ' only</span>' : p.sizes.map(function (z) { return '<span>' + esc(z) + '</span>'; }).join("")) + '</div>' +
-      (p.placeholder ? '' : '<p class="deal-note">' + money(PR.additional) + ' each when you buy 2 or more</p>') +
+      (p.placeholder ? '' : '<p class="deal-note">' + money(p.price - DISC) + ' when it’s your 2nd shirt or more</p>') +
       (p.placeholder ? '<span class="btn btn-soon" aria-disabled="true">Design coming soon</span>' : '<a class="btn" href="#order" data-pick="' + esc(p.id) + '">' + esc(p.cta || "Order this tee") + '</a>') + '</article>';
   }
 
@@ -626,9 +628,12 @@ window.__startShop = function () {
   }
 
   /* ---------- Cart (shared across every show) ---------- */
-  var PR = SITE.pricing || { first: 26, additional: 24 };
-  function priceFor(n) { return n > 0 ? PR.first + (n - 1) * PR.additional : 0; }
-  function dealText() { return money(PR.first).replace(".00", "") + " for one shirt, " + money(PR.additional).replace(".00", "") + " for each additional shirt. Mix and match any shirts from any show."; }
+  var DISC = Number(SITE.multiDiscount) || 0, TIERS = SITE.shippingTiers || [6];
+  function discountFor(n) { return n > 1 ? (n - 1) * DISC : 0; }
+  function shipFor(n) { return n > 0 ? Number(TIERS[Math.min(n, TIERS.length) - 1]) : 0; }
+  function fullPrice(c) { return c.reduce(function (a, l) { return a + findProduct(l.show, l.id).p.price * l.qty; }, 0); }
+  function priceOf(c) { return fullPrice(c) - discountFor(cartCount(c)); }
+  function dealText() { return "Buy 2 or more and every shirt after your first is " + money(DISC).replace(".00", "") + " off. Mix and match any shirts from any show."; }
   function findProduct(showId, id) {
     var sh = SHOWS.filter(function (x) { return x.id === showId; })[0];
     var p = sh && sh.products.filter(function (x) { return x.id === id && !x.placeholder; })[0];
@@ -661,9 +666,9 @@ window.__startShop = function () {
     saveCart(c); paintCount(true); return add;
   }
   function totalsLines(c) {
-    var n = cartCount(c), full = n * PR.first, sub = priceFor(n);
-    return '<div><span>' + n + ' shirt' + (n === 1 ? '' : 's') + '</span><span>' + money(sub) + '</span></div>' +
-      (n > 1 ? '<div class="save"><span>Includes multi-shirt savings</span><span>−' + money(full - sub) + '</span></div>' : '');
+    var n = cartCount(c);
+    return '<div><span>' + n + ' shirt' + (n === 1 ? '' : 's') + '</span><span>' + money(fullPrice(c)) + '</span></div>' +
+      (n > 1 ? '<div class="save"><span>Multi-shirt savings</span><span>−' + money(discountFor(n)) + '</span></div>' : '');
   }
 
   function orderSection(show) {
@@ -748,16 +753,15 @@ window.__startShop = function () {
       return;
     }
     var shows = []; c.forEach(function (l) { var sh = findProduct(l.show, l.id).show; if (shows.indexOf(sh) < 0) shows.push(sh); });
-    var shipping = Math.max.apply(null, shows.map(function (x) { return Number(x.shipping) || 0; }));
     var pickup = shows.every(function (x) { return x.pickup; }) ? shows[0].pickup : null;
     app.innerHTML = head +
       '<section class="order wrap" id="checkout" aria-labelledby="order-h"><div class="section-head"><span class="eyebrow">Checkout</span><h2 id="order-h">Your cart</h2></div>' +
       '<div class="desk"><form id="orderForm" novalidate>' +
       '<fieldset><legend><span class="step">1</span> Your shirts</legend><div class="cart-lines" id="cartLines"></div><p><a class="linkbtn" href="#home">＋ Keep shopping</a></p></fieldset>' +
       '<fieldset><legend><span class="step">2</span> Delivery</legend><div class="choices">' +
-      '<div class="choice"><input type="radio" name="delivery" id="del-ship" value="ship" checked><label for="del-ship">Ship it to me · ' + money(shipping) + '</label></div>' +
+      '<div class="choice"><input type="radio" name="delivery" id="del-ship" value="ship" checked><label for="del-ship">Ship it to me · <span id="shipPrice"></span></label></div>' +
       (pickup ? '<div class="choice"><input type="radio" name="delivery" id="del-pickup" value="pickup"><label for="del-pickup">' + esc(pickup.label) + '</label></div>' : "") +
-      '</div>' + (pickup ? '<p class="hint" id="pickupHint" hidden>' + esc(pickup.note) + '</p>' : "") + '<p class="hint">One shipping charge covers your whole order.</p></fieldset>' +
+      '</div>' + (pickup ? '<p class="hint" id="pickupHint" hidden>' + esc(pickup.note) + '</p>' : "") + '<p class="hint">Shipping for your whole order: ' + TIERS.map(function (t, i) { return (i === TIERS.length - 1 ? (i + 1) + '+ shirts ' : (i + 1) + ' shirt' + (i ? 's ' : ' ')) + money(t).replace(".00", ""); }).join(" · ") + '.</p></fieldset>' +
       '<fieldset><legend><span class="step">3</span> <span id="detailsTitle">Shipping details</span></legend>' +
       '<div class="row"><div class="field"><label for="first">First name</label><input type="text" id="first" autocomplete="given-name" required></div><div class="field"><label for="last">Last name</label><input type="text" id="last" autocomplete="family-name" required></div></div>' +
       '<div class="row"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="phone">Phone <small>(optional)</small></label><input type="tel" id="phone" autocomplete="tel"></div></div>' +
@@ -770,14 +774,14 @@ window.__startShop = function () {
       '<div class="lines" id="sumLines"></div>' +
       '<div class="form-msg" id="formMsg" hidden></div><a class="btn" id="payBtn" href="#" target="_blank" rel="noopener">Pay with PayPal</a>' +
       '<p class="fine"><strong>Made in Orlando.</strong> ' + esc(SITE.podNote) + ' You’ll finish checkout on PayPal’s secure site, and every shirt, size and your delivery details go with the payment.</p></div></aside></div></section>' + foot;
-    initCart(shipping, pickup);
+    initCart(pickup);
   }
 
-  function initCart(shipping, pickup) {
+  function initCart(pickup) {
     var $ = function (id) { return document.getElementById(id); };
     var st = { delivery: "ship" };
     function f() { var o = {}; ["first","last","email","phone","addr1","addr2","city","state","zip","country","notes"].forEach(function (k) { o[k] = $(k).value.trim(); }); return o; }
-    function shipCost() { return st.delivery === "ship" ? shipping : 0; }
+    function shipCost() { return st.delivery === "ship" ? shipFor(cartCount()) : 0; }
     function paypalUrl() {
       var v = f(), pk = st.delivery === "pickup", c = loadCart(), n = cartCount(c);
       var params = { cmd: "_cart", upload: "1", business: SITE.paypalEmail, currency_code: "USD", no_shipping: pk ? "1" : "2",
@@ -789,12 +793,12 @@ window.__startShop = function () {
         var f2 = findProduct(l.show, l.id), k = i + 1;
         params["item_name_" + k] = (f2.show.name + " - " + f2.p.name + " - Size " + l.size + (pk ? " - LOCAL PICKUP" : "")).slice(0, 127);
         params["item_number_" + k] = (l.show + "-" + l.id + "-" + l.size).toUpperCase().slice(0, 127);
-        params["amount_" + k] = Number(PR.first).toFixed(2);
+        params["amount_" + k] = Number(f2.p.price).toFixed(2);
         params["quantity_" + k] = String(l.qty);
         params["on0_" + k] = "Size"; params["os0_" + k] = l.size;
       });
       if (shipCost() > 0) params.shipping_1 = shipCost().toFixed(2);
-      if (n > 1) params.discount_amount_cart = (n * PR.first - priceFor(n)).toFixed(2);
+      if (n > 1 && DISC > 0) params.discount_amount_cart = discountFor(n).toFixed(2);
       return "https://www.paypal.com/cgi-bin/webscr?" + Object.keys(params).filter(function (k) { return params[k] !== ""; }).map(function (k) { return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]); }).join("&");
     }
     function drawLines() {
@@ -811,8 +815,9 @@ window.__startShop = function () {
     function update() {
       var c = loadCart(), n = cartCount(c), pk = st.delivery === "pickup";
       $("sumLines").innerHTML = totalsLines(c) +
-        '<div><span>' + (pk ? "Pickup" : "Shipping &amp; handling") + '</span><span>' + (pk ? "Free" : money(shipping)) + '</span></div>' +
-        '<div class="total"><span>Total</span><span>' + money(priceFor(n) + shipCost()) + '</span></div>';
+        '<div><span>' + (pk ? "Pickup" : "Shipping &amp; handling") + '</span><span>' + (pk ? "Free" : money(shipFor(n))) + '</span></div>' +
+        '<div class="total"><span>Total</span><span>' + money(priceOf(c) + shipCost()) + '</span></div>';
+      $("shipPrice").textContent = money(shipFor(n));
       $("addrBlock").hidden = pk; if ($("pickupHint")) $("pickupHint").hidden = !pk;
       $("detailsTitle").textContent = pk ? "Your details" : "Shipping details";
       $("payBtn").href = paypalUrl();
