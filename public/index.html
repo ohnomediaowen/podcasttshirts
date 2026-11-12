@@ -40,6 +40,12 @@ a { color: inherit; }
 /* Site bar + tabs */
 .sitebar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bar-bg); color: var(--bar-ink); font-family: var(--site); }
 .sitebar .wrap { display: flex; align-items: center; gap: 1.25rem; padding-block: .55rem; }
+.bar-top { display: contents; }
+.cartlink { order: 3; flex: none; display: inline-flex; align-items: center; gap: .45rem; color: var(--bar-ink); text-decoration: none; font: 800 .9rem var(--site); padding: .45rem .85rem; border: 1.5px solid var(--bar-muted); border-radius: 999px; white-space: nowrap; }
+.cartlink:hover, .cartlink[aria-current="page"] { background: var(--bar-ink); color: var(--bar-bg); border-color: var(--bar-ink); }
+.cartlink b { min-width: 1.4rem; height: 1.4rem; padding: 0 .3rem; box-sizing: border-box; border-radius: 999px; background: #e0592a; color: #fff; font-size: .78rem; display: inline-flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+.cartlink.bump b { animation: bump .45s ease; }
+@keyframes bump { 40% { transform: scale(1.35); } }
 .brand { font-family: "Archivo Black", var(--site); font-size: 1.05rem; letter-spacing: -.01em; white-space: nowrap; text-decoration: none; }
 .brand b { color: var(--bar-muted); font-weight: 400; }
 .tabs { display: flex; gap: .3rem; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
@@ -48,7 +54,8 @@ a { color: inherit; }
 .tab:hover { color: var(--bar-ink); }
 .tab[aria-selected="true"] { background: var(--bar-ink); color: var(--bar-bg); }
 .tab .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
-@media (max-width: 640px) { .sitebar .wrap { flex-direction: column; align-items: stretch; gap: .35rem; } .tabs { margin-inline: -4px; } }
+@media (max-width: 640px) { .sitebar .wrap { flex-direction: column; align-items: stretch; gap: .35rem; } .bar-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; } .tabs { margin-inline: -4px; } }
+@media (prefers-reduced-motion: reduce) { .cartlink.bump b { animation: none; } }
 
 /* POD notice */
 .pod { background: var(--page); border-bottom: 1px solid var(--line); }
@@ -175,6 +182,27 @@ input:focus, select:focus, textarea:focus { border-color: var(--focus); outline:
 .lines .total { font-weight: 800; font-size: 1.2rem; border-top: 1px dashed color-mix(in srgb, var(--ticket-ink) 35%, transparent); padding-top: .6rem; margin-top: .3rem; }
 .ticket .btn { background: var(--tbtn-bg); color: var(--tbtn-ink); width: 100%; box-sizing: border-box; }
 .ticket .fine { font-size: .84rem; opacity: .82; margin: 0; }
+.deal { font-weight: 700; }
+.deal-note { font-size: .88rem; font-weight: 700; color: var(--c-note, inherit); }
+.add-row { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+.added { font-weight: 700; color: var(--eyebrow); margin: 0; }
+.cart-lines { display: grid; gap: .9rem; }
+.cart-line { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: .9rem; align-items: center; border: 1.5px solid var(--line); background: var(--field); border-radius: 14px; padding: .7rem; }
+.cart-line img { width: 72px; height: 72px; border-radius: 10px; background: #fff; object-fit: cover; }
+.cart-line strong { display: block; }
+.cart-line .meta { color: var(--muted); font-size: .9rem; }
+.cart-line .ctl { display: grid; gap: .4rem; justify-items: end; }
+.cart-line .qty button { width: 38px; height: 38px; }
+.linkbtn { appearance: none; border: 0; background: none; padding: 0; color: var(--muted); font: 700 .85rem var(--body); text-decoration: underline; cursor: pointer; }
+@media (max-width: 480px) { .cart-line { grid-template-columns: 60px minmax(0, 1fr); } .cart-line img { width: 60px; height: 60px; } .cart-line .ctl { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; } }
+#miniCart { display: grid; gap: 1rem; }
+.mini { display: grid; gap: .55rem; }
+.mini-item { display: grid; grid-template-columns: 44px 1fr; gap: .7rem; align-items: center; font-size: .92rem; }
+.mini-item img { width: 44px; height: 44px; border-radius: 8px; background: #fff; object-fit: cover; }
+.mini-item span { opacity: .8; display: block; font-size: .85rem; }
+.ticket .empty { opacity: .8; margin: 0; }
+.ticket .save { color: inherit; opacity: .85; }
+.ticket .btn.ghost { background: transparent; color: inherit; box-shadow: none; border: 1.5px solid currentColor; }
 .form-msg { background: var(--error-bg); color: var(--error); border-radius: 10px; padding: .7rem .9rem; font-weight: 700; font-size: .92rem; }
 
 .showfoot { background: var(--head-bg); color: var(--head-ink); }
@@ -191,7 +219,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--focus); outline:
 
 <header class="sitebar">
   <div class="wrap">
-    <a class="brand" href="#home">PodcastTShirts<b>.com</b></a>
+    <div class="bar-top"><a class="brand" href="#home">PodcastTShirts<b>.com</b></a><a class="cartlink" id="cartLink" href="#cart" aria-label="Cart, 0 shirts">Cart <b id="cartCount">0</b></a></div>
     <nav class="tabs" id="tabs" role="tablist" aria-label="Shows"></nav>
   </div>
 </header>
@@ -210,7 +238,10 @@ var SITE = {
   paypalEmail: "ohnomediaowen@gmail.com",   // where every payment goes
   contactEmail: "ohnomediaowen@gmail.com",
   podNote: "Every shirt is printed on demand, locally in Orlando, Florida. Printing, shipping and processing take a few weeks.",
-  madeIn: "Orlando, FL"
+  madeIn: "Orlando, FL",
+  // Site-wide shirt pricing: the first shirt in the cart costs `first`,
+  // every shirt after that costs `additional` (any show, any design).
+  pricing: { first: 26, additional: 24 }
 };
 
 /* =====================================================================
@@ -242,16 +273,16 @@ var SHOWS = [
     pickup: { label: "Pick up in person · Free (Orlando area only)", note: "Orlando area only. No shipping charge. After you pay, email ohnomediaowen@gmail.com to arrange a time and place to pick up your shirt." },
     theme: {}, // uses the default tokens (the original Oh No look)
     products: [
-      { id: "cream", name: "Cream Logo Tee", choice: "Cream", swatch: "#ece2d0", price: 23, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "cream", name: "Cream Logo Tee", choice: "Cream", swatch: "#ece2d0", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Warm sand-cream tee with the full-color Oh No Radio Show logo across the chest.",
         images: ["img/cream.jpg"], alt: "Cream Oh No Radio Show t-shirt with the retro rainbow logo",
         card: { bg: "#ece2d0", ink: "#4b2219", muted: "#6f5a4f" }, cta: "Order the cream tee" },
-      { id: "blue", name: "Blue Logo Tee (Limited Edition)", short: "Blue Logo Tee", choice: "Blue (limited)", swatch: "#c6d7ea", price: 23, sizes: ["S"], def: "S", maxQty: 2,
+      { id: "blue", name: "Blue Logo Tee (Limited Edition)", short: "Blue Logo Tee", choice: "Blue (limited)", swatch: "#c6d7ea", price: 26, sizes: ["S"], def: "S", maxQty: 2,
         badge: "Limited edition", hint: "Limited edition: available in small only.",
         desc: "Heather sky-blue tee in a limited run. Once these are gone, they are gone.",
         images: ["img/blue.jpg", "img/blue-2.jpg"], alt: "Light blue Oh No Radio Show t-shirt, limited edition",
         card: { bg: "#c6d7ea", ink: "#4b2219", muted: "#4f4a52" }, cta: "Order the blue tee" },
-      { id: "podcast-sucks", name: "PRE-ORDER: Your Favorite Podcast Sucks Tee (Black)", short: "Your Favorite Podcast Sucks Tee", choice: "Black “Podcast Sucks” (pre-order)", swatch: "#1b1b1e", price: 23, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "podcast-sucks", name: "PRE-ORDER: Your Favorite Podcast Sucks Tee (Black)", short: "Your Favorite Podcast Sucks Tee", choice: "Black “Podcast Sucks” (pre-order)", swatch: "#1b1b1e", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         badge: "Pre-order", badgeStyle: { bg: "#f2c14e", ink: "#4b2219" }, hint: "Pre-order: paid now, ships or is ready for pickup when the print run is done.",
         desc: "Black tee, bold white letters, zero apologies. Small ohnoradioshow.com under the punchline.",
         note: "Paid pre-order: you pay now, and your shirt ships (or is ready for pickup) as soon as the print run is done.",
@@ -282,27 +313,27 @@ var SHOWS = [
       body: "\"DM Sans\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "scotch-logo-white", name: "Scotch and “Good” Conversation Logo Tee (White)", short: "Logo Tee, White", choice: "White logo tee", swatch: "#faf9f6", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "scotch-logo-white", name: "Scotch and “Good” Conversation Logo Tee (White)", short: "Logo Tee, White", choice: "White logo tee", swatch: "#faf9f6", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Crisp white tee with the typewriter Scotch and “good” Conversation logo across the chest, red “good” and all.",
         images: ["img/scotch-logo-tee-white.jpg"], alt: "White t-shirt with the Scotch and good Conversation typewriter logo",
         card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white logo tee" },
-      { id: "scotch-logo-black", name: "Scotch and “Good” Conversation Logo Tee (Black)", short: "Logo Tee, Black", choice: "Black logo tee", swatch: "#161922", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "scotch-logo-black", name: "Scotch and “Good” Conversation Logo Tee (Black)", short: "Logo Tee, Black", choice: "Black logo tee", swatch: "#161922", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee with the logo printed in white, and that red “good” doing the heavy lifting.",
         images: ["img/scotch-logo-tee-black.jpg"], alt: "Black t-shirt with the Scotch and good Conversation logo in white",
         card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black logo tee" },
-      { id: "corporate-white", name: "Corporate Podcasts Still Suck Tee (White)", short: "Corporate Podcasts Tee, White", choice: "White “Corporate Podcasts”", swatch: "#faf9f6", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "corporate-white", name: "Corporate Podcasts Still Suck Tee (White)", short: "Corporate Podcasts Tee, White", choice: "White “Corporate Podcasts”", swatch: "#faf9f6", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "White tee, distressed black letters, one honest opinion. Small scotchandgoodconversation.com under the punchline.",
         images: ["img/corporate-tee-white.jpg"], alt: "White t-shirt reading Corporate podcasts still suck",
         card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white tee" },
-      { id: "corporate-black", name: "Corporate Podcasts Still Suck Tee (Black)", short: "Corporate Podcasts Tee, Black", choice: "Black “Corporate Podcasts”", swatch: "#161922", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "corporate-black", name: "Corporate Podcasts Still Suck Tee (Black)", short: "Corporate Podcasts Tee, Black", choice: "Black “Corporate Podcasts”", swatch: "#161922", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee with weathered white letters. Still true, still printed in Orlando.",
         images: ["img/corporate-tee-black.jpg"], alt: "Black t-shirt reading Corporate podcasts still suck in white",
         card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black tee" },
-      { id: "conversation-black", name: "Conversation Tee (Black)", short: "Conversation Tee, Black", choice: "Black \u201cConversation\u201d", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "conversation-black", name: "Conversation Tee (Black)", short: "Conversation Tee, Black", choice: "Black \u201cConversation\u201d", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee with a bold white CONVERSATION and two stars, scotchandgoodconversation.com underneath.",
         images: ["img/conversation-tee-black.webp"], alt: "Black t-shirt reading Conversation in bold white letters with stars",
         card: { bg: "#161922", ink: "#f7f6f2", muted: "#bdbdbd", btnBg: "#ffffff", btnInk: "#111111" }, cta: "Order the black tee" },
-      { id: "conversation-white", name: "Conversation Tee (White)", short: "Conversation Tee, White", choice: "White \u201cConversation\u201d", swatch: "#faf9f6", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "conversation-white", name: "Conversation Tee (White)", short: "Conversation Tee, White", choice: "White \u201cConversation\u201d", swatch: "#faf9f6", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "White tee with a bold black CONVERSATION and two stars, scotchandgoodconversation.com underneath.",
         images: ["img/conversation-tee-white.webp"], alt: "White t-shirt reading Conversation in bold black letters with stars",
         card: { bg: "#faf9f6", ink: "#111111", muted: "#5e5e5e" }, cta: "Order the white tee" }
@@ -330,15 +361,15 @@ var SHOWS = [
       body: "\"Karla\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "wrestling-blue", name: "Oh No Wrestling Logo Tee (Royal Blue)", short: "Logo Tee, Royal Blue", choice: "Royal blue logo tee", swatch: "#2a63c9", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "wrestling-blue", name: "Oh No Wrestling Logo Tee (Royal Blue)", short: "Logo Tee, Royal Blue", choice: "Royal blue logo tee", swatch: "#2a63c9", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Royal blue tee with the retro Oh No Wrestling script logo riding a red, orange, cream and sky-blue stripe.",
         images: ["img/ohno-wrestling-tee-blue.jpg"], alt: "Royal blue t-shirt with the retro Oh No Wrestling logo and rainbow stripe",
         card: { bg: "#1f4fb4", ink: "#f6ead2", muted: "#d9e2f5", btnBg: "#f6ead2", btnInk: "#1f4fb4" }, cta: "Order the royal blue tee" },
-      { id: "wrestling-cream", name: "Oh No Wrestling Logo Tee (Cream)", short: "Logo Tee, Cream", choice: "Cream logo tee", swatch: "#f5e6cc", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "wrestling-cream", name: "Oh No Wrestling Logo Tee (Cream)", short: "Logo Tee, Cream", choice: "Cream logo tee", swatch: "#f5e6cc", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Cream tee with the retro Oh No Wrestling script logo and its navy, red, orange and blue stripe.",
         images: ["img/ohno-wrestling-tee-cream.jpg"], alt: "Cream t-shirt with the retro Oh No Wrestling logo and rainbow stripe",
         card: { bg: "#fffaf0", ink: "#0f2a66", muted: "#4d5a7a", border: "#d8c9a6" }, cta: "Order the cream tee" },
-      { id: "wrestling-pro", name: "Pro Science, Pro Choice, Pro Wrestling Tee (Black)", short: "Pro Wrestling Tee, Black", choice: "Black \u201cPro Wrestling\u201d tee", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "wrestling-pro", name: "Pro Science, Pro Choice, Pro Wrestling Tee (Black)", short: "Pro Wrestling Tee, Black", choice: "Black \u201cPro Wrestling\u201d tee", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, bold white letters: Pro science. Pro choice. Pro wrestling.",
         images: ["img/ohno-wrestling-tee-pro-choice.jpg"], alt: "Black t-shirt reading Pro science, Pro choice, Pro wrestling in bold white letters",
         card: { bg: "#141414", ink: "#f6ead2", muted: "#c9c2b2", btnBg: "#f6ead2", btnInk: "#141414" }, cta: "Order the black tee" }
@@ -367,11 +398,11 @@ var SHOWS = [
       body: "\"Archivo\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "fat-tom-guy", name: "I'm a Fat Tom Guy Tee (Black)", short: "I'm a Fat Tom Guy", choice: "I'm a Fat Tom Guy", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "fat-tom-guy", name: "I'm a Fat Tom Guy Tee (Black)", short: "I'm a Fat Tom Guy", choice: "I'm a Fat Tom Guy", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, big distressed white letters: I'M A FAT TOM GUY.",
         images: ["img/inspired-fat-tom-guy.jpg"], alt: "Black t-shirt reading I'm a Fat Tom guy in distressed white letters",
         card: { bg: "#161616", ink: "#ffffff", muted: "#c9c9c9", border: "#2c2c2c", btnBg: "#cc5500", btnInk: "#ffffff" }, cta: "Order the Fat Tom tee" },
-      { id: "kenny-guy", name: "I'm a Kenny Guy Tee (Black)", short: "I'm a Kenny Guy", choice: "I'm a Kenny Guy", swatch: "#141414", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "kenny-guy", name: "I'm a Kenny Guy Tee (Black)", short: "I'm a Kenny Guy", choice: "I'm a Kenny Guy", swatch: "#141414", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, big distressed white letters: I'M A KENNY GUY.",
         images: ["img/inspired-kenny-guy.jpg"], alt: "Black t-shirt reading I'm a Kenny guy in distressed white letters",
         card: { bg: "#161616", ink: "#ffffff", muted: "#c9c9c9", border: "#2c2c2c", btnBg: "#cc5500", btnInk: "#ffffff" }, cta: "Order the Kenny tee" }
@@ -399,27 +430,27 @@ var SHOWS = [
       body: "\"Archivo\", \"Helvetica Neue\", Arial, sans-serif"
     },
     products: [
-      { id: "boo-hole-black", name: "Get Back in Your Boo Hole Tee (Black)", short: "Boo Hole Tee, Black", choice: "Black “Boo Hole”", swatch: "#0e0e0f", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "boo-hole-black", name: "Get Back in Your Boo Hole Tee (Black)", short: "Boo Hole Tee, Black", choice: "Black “Boo Hole”", swatch: "#0e0e0f", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, bold white letters, and two jack-o’-lanterns standing in for the O’s in boo.",
         images: ["img/tech-boo-hole-black.jpg"], alt: "Black t-shirt reading Get back in your boo hole, with jack-o-lanterns as the O's in boo",
         card: { bg: "#0e0e0f", ink: "#ffffff", muted: "#c4c4c4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the black tee" },
-      { id: "boo-hole-gray", name: "Get Back in Your Boo Hole Tee (Dark Gray)", short: "Boo Hole Tee, Dark Gray", choice: "Dark gray “Boo Hole”", swatch: "#3d3e42", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "boo-hole-gray", name: "Get Back in Your Boo Hole Tee (Dark Gray)", short: "Boo Hole Tee, Dark Gray", choice: "Dark gray “Boo Hole”", swatch: "#3d3e42", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Dark gray tee, bold white letters, and two jack-o’-lanterns standing in for the O’s in boo.",
         images: ["img/tech-boo-hole-darkgray.jpg"], alt: "Dark gray t-shirt reading Get back in your boo hole, with jack-o-lanterns as the O's in boo",
         card: { bg: "#3d3e42", ink: "#ffffff", muted: "#d4d4d4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the dark gray tee" },
-      { id: "bigger-shows-black", name: "I’ve Fucked Up Bigger Shows Than This Tee (Black)", short: "Bigger Shows Tee, Black", choice: "Black “Bigger Shows”", swatch: "#0e0e0f", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-black", name: "I’ve Fucked Up Bigger Shows Than This Tee (Black)", short: "Bigger Shows Tee, Black", choice: "Black “Bigger Shows”", swatch: "#0e0e0f", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Black tee, bold white letters: I’ve fucked up bigger shows than this.",
         images: ["img/tech-bigger-shows-black.jpg"], alt: "Black t-shirt reading I've fucked up bigger shows than this in bold white letters",
         card: { bg: "#0e0e0f", ink: "#ffffff", muted: "#c4c4c4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the black tee" },
-      { id: "bigger-shows-gray", name: "I’ve Fucked Up Bigger Shows Than This Tee (Dark Gray)", short: "Bigger Shows Tee, Dark Gray", choice: "Dark gray “Bigger Shows”", swatch: "#3d3e42", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-gray", name: "I’ve Fucked Up Bigger Shows Than This Tee (Dark Gray)", short: "Bigger Shows Tee, Dark Gray", choice: "Dark gray “Bigger Shows”", swatch: "#3d3e42", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "Dark gray tee, bold white letters: I’ve fucked up bigger shows than this.",
         images: ["img/tech-bigger-shows-darkgray.jpg"], alt: "Dark gray t-shirt reading I've fucked up bigger shows than this in bold white letters",
         card: { bg: "#3d3e42", ink: "#ffffff", muted: "#d4d4d4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the dark gray tee" },
-      { id: "bigger-shows-clean-black", name: "I’ve F***** Up Bigger Shows Than This Tee (Black, Censored)", short: "Bigger Shows Tee (Censored), Black", choice: "Black “Bigger Shows” censored", swatch: "#0e0e0f", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-clean-black", name: "I’ve F***** Up Bigger Shows Than This Tee (Black, Censored)", short: "Bigger Shows Tee (Censored), Black", choice: "Black “Bigger Shows” censored", swatch: "#0e0e0f", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "The work-friendly version. Black tee, bold white letters: I’ve f***** up bigger shows than this.",
         images: ["img/tech-bigger-shows-censored-black.jpg"], alt: "Black t-shirt reading I've f***** up bigger shows than this in bold white letters",
         card: { bg: "#0e0e0f", ink: "#ffffff", muted: "#c4c4c4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the black tee" },
-      { id: "bigger-shows-clean-gray", name: "I’ve F***** Up Bigger Shows Than This Tee (Dark Gray, Censored)", short: "Bigger Shows Tee (Censored), Dark Gray", choice: "Dark gray “Bigger Shows” censored", swatch: "#3d3e42", price: 28, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
+      { id: "bigger-shows-clean-gray", name: "I’ve F***** Up Bigger Shows Than This Tee (Dark Gray, Censored)", short: "Bigger Shows Tee (Censored), Dark Gray", choice: "Dark gray “Bigger Shows” censored", swatch: "#3d3e42", price: 26, sizes: ["S","M","L","XL","XXL"], def: "M", maxQty: 5,
         desc: "The work-friendly version. Dark gray tee, bold white letters: I’ve f***** up bigger shows than this.",
         images: ["img/tech-bigger-shows-censored-darkgray.jpg"], alt: "Dark gray t-shirt reading I've f***** up bigger shows than this in bold white letters",
         card: { bg: "#3d3e42", ink: "#ffffff", muted: "#d4d4d4", btnBg: "#ffffff", btnInk: "#0a0a0a" }, cta: "Order the dark gray tee" }
@@ -508,9 +539,10 @@ window.__startShop = function () {
     return '<article class="card" style="' + style + '">' +
       (p.badge ? '<span class="badge">' + esc(p.badge) + '</span>' : "") +
       '<div class="photo"><img id="main-' + esc(p.id) + '" src="' + esc(p.images[0]) + '" alt="' + esc(p.alt) + '" width="1200" height="1200"></div>' + thumbs +
-      '<div class="card-row"><h3>' + esc(p.short || p.name) + '</h3><span class="price">' + money(p.price) + '</span></div>' +
+      '<div class="card-row"><h3>' + esc(p.short || p.name) + '</h3><span class="price">' + money(PR.first) + '</span></div>' +
       '<p>' + esc(p.desc) + '</p>' + (p.note ? '<p class="note">' + esc(p.note) + '</p>' : "") +
       '<div class="sizes-inline" aria-label="Sizes available">' + (p.sizes.length === 1 ? '<span>' + esc(p.sizes[0]) + ' only</span>' : p.sizes.map(function (z) { return '<span>' + esc(z) + '</span>'; }).join("")) + '</div>' +
+      (p.placeholder ? '' : '<p class="deal-note">' + money(PR.additional) + ' each when you buy 2 or more</p>') +
       (p.placeholder ? '<span class="btn btn-soon" aria-disabled="true">Design coming soon</span>' : '<a class="btn" href="#order" data-pick="' + esc(p.id) + '">' + esc(p.cta || "Order this tee") + '</a>') + '</article>';
   }
 
@@ -536,34 +568,6 @@ window.__startShop = function () {
       '</ul></div></section>';
   }
 
-  function orderSection(show) {
-    var pickup = show.pickup;
-    return '<section class="order wrap" id="order" aria-labelledby="order-h"><div class="section-head"><span class="eyebrow">Order form</span><h2 id="order-h">Get yours</h2></div>' +
-      '<div class="desk"><form id="orderForm" novalidate>' +
-      '<fieldset><legend><span class="step">1</span> Choose a shirt</legend><div class="choices">' +
-      show.products.map(function (p, i) { return '<div class="choice"><input type="radio" name="shirt" id="shirt-' + esc(p.id) + '" value="' + esc(p.id) + '"' + (i === 0 ? " checked" : "") + '><label for="shirt-' + esc(p.id) + '"><span class="swatch" style="background:' + esc(p.swatch) + '"></span>' + esc(p.choice || p.short || p.name) + '</label></div>'; }).join("") +
-      '</div></fieldset>' +
-      '<fieldset><legend><span class="step">2</span> Size and quantity</legend><div class="choices" id="sizeChoices"></div><p class="hint" id="sizeHint"></p>' +
-      '<div class="qty" aria-label="Quantity"><button type="button" id="qtyMinus" aria-label="One fewer">−</button><output id="qtyOut" aria-live="polite">1</output><button type="button" id="qtyPlus" aria-label="One more">+</button></div></fieldset>' +
-      '<fieldset><legend><span class="step">3</span> Delivery</legend><div class="choices">' +
-      '<div class="choice"><input type="radio" name="delivery" id="del-ship" value="ship" checked><label for="del-ship">Ship it to me · ' + money(show.shipping) + '</label></div>' +
-      (pickup ? '<div class="choice"><input type="radio" name="delivery" id="del-pickup" value="pickup"><label for="del-pickup">' + esc(pickup.label) + '</label></div>' : "") +
-      '</div>' + (pickup ? '<p class="hint" id="pickupHint" hidden>' + esc(pickup.note) + '</p>' : "") + '</fieldset>' +
-      '<fieldset><legend><span class="step">4</span> <span id="detailsTitle">Shipping details</span></legend>' +
-      '<div class="row"><div class="field"><label for="first">First name</label><input type="text" id="first" autocomplete="given-name" required></div><div class="field"><label for="last">Last name</label><input type="text" id="last" autocomplete="family-name" required></div></div>' +
-      '<div class="row"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="phone">Phone <small>(optional)</small></label><input type="tel" id="phone" autocomplete="tel"></div></div>' +
-      '<div id="addrBlock" style="display:grid;gap:.9rem"><div class="field"><label for="addr1">Street address</label><input type="text" id="addr1" autocomplete="address-line1" required></div>' +
-      '<div class="field"><label for="addr2">Apt, suite, unit <small>(optional)</small></label><input type="text" id="addr2" autocomplete="address-line2"></div>' +
-      '<div class="row"><div class="field"><label for="city">City</label><input type="text" id="city" autocomplete="address-level2" required></div><div class="field"><label for="state">State / province</label><input type="text" id="state" autocomplete="address-level1" required></div><div class="field"><label for="zip">ZIP / postal code</label><input type="text" id="zip" autocomplete="postal-code" required></div></div>' +
-      '<div class="field"><label for="country">Country</label><select id="country" autocomplete="country"><option value="US" selected>United States</option><option value="CA">Canada</option><option value="GB">United Kingdom</option><option value="AU">Australia</option></select></div></div>' +
-      '<div class="field"><label for="notes">Order notes <small>(optional)</small></label><textarea id="notes" rows="2" maxlength="200"></textarea></div></fieldset></form>' +
-      '<aside class="ticket" aria-labelledby="sum-h"><div class="swash" aria-hidden="true"></div><div class="ticket-body"><h3 id="sum-h">Your order</h3>' +
-      '<div class="ticket-item"><img id="sumImg" src="" alt=""><div><strong id="sumName"></strong><span id="sumMeta"></span></div></div>' +
-      '<div class="lines"><div><span>Subtotal</span><span id="sumSub"></span></div><div><span id="shipLabel">Shipping &amp; handling</span><span id="sumShip"></span></div><div class="total"><span>Total</span><span id="sumTotal"></span></div></div>' +
-      '<div class="form-msg" id="formMsg" hidden></div><a class="btn" id="payBtn" href="#" target="_blank" rel="noopener">Pay with PayPal</a>' +
-      '<p class="fine"><strong>Made in Orlando.</strong> ' + esc(SITE.podNote) + ' You’ll finish checkout on PayPal’s secure site, and your shirt, size and delivery details go with the payment.</p></div></aside></div></section>';
-  }
-
   function selectTab(id) {
     tabsEl.querySelectorAll(".tab").forEach(function (t) { t.setAttribute("aria-selected", t.id === "tab-" + id ? "true" : "false"); });
   }
@@ -587,6 +591,7 @@ window.__startShop = function () {
     selectTab("home");
     var live = SHOWS.filter(function (s) { return !s.comingSoon; }).length;
     app.innerHTML =
+      '<div class="pod"><div class="wrap"><strong>Multi-shirt deal</strong><span>' + esc(dealText()) + '</span></div></div>' +
       '<div class="pod"><div class="wrap"><strong>Locally made in Orlando</strong><span>' + esc(SITE.podNote) + '</span></div></div>' +
       '<section class="mast hero"><div class="wrap mast-grid"><div class="mast-copy"><span class="eyebrow">PodcastTShirts.com · Orlando, Florida</span>' +
       '<h1>Locally sourced tees from locally sourced podcasts.</h1>' +
@@ -609,6 +614,7 @@ window.__startShop = function () {
     var sell = show.products.filter(function (p) { return !p.placeholder; });
     var shop = sell.length ? Object.assign({}, show, { products: sell }) : null;
     app.innerHTML =
+      '<div class="pod"><div class="wrap"><strong>Multi-shirt deal</strong><span>' + esc(dealText()) + '</span></div></div>' +
       '<div class="pod"><div class="wrap"><strong>Locally made in Orlando</strong><span>' + esc(SITE.podNote) + '</span></div></div>' +
       '<section class="mast"><div class="wrap mast-grid"><div class="mast-copy"><span class="eyebrow">' + (show.comingSoon ? "Coming soon · Made in Orlando" : "Official store · Made in Orlando") + '</span><h1>' + (show.headerLogo ? '<img class="mast-logo" src="' + esc(show.headerLogo) + '" alt="' + esc(show.title) + '">' : esc(show.title)) + '</h1><p>' + esc(show.intro) + '</p></div>' + stamp() + '</div><div class="swash" aria-hidden="true"></div></section>' +
       '<section class="products wrap" aria-labelledby="shop-h"><div class="section-head"><span class="eyebrow">' + (show.comingSoon ? "New show" : "The shirts") + '</span><h2 id="shop-h">' + (has ? "Pick your tee" : "Merch is on the way") + '</h2></div>' +
@@ -619,40 +625,194 @@ window.__startShop = function () {
     if (shop) initOrder(shop);
   }
 
+  /* ---------- Cart (shared across every show) ---------- */
+  var PR = SITE.pricing || { first: 26, additional: 24 };
+  function priceFor(n) { return n > 0 ? PR.first + (n - 1) * PR.additional : 0; }
+  function dealText() { return money(PR.first).replace(".00", "") + " for one shirt, " + money(PR.additional).replace(".00", "") + " for each additional shirt. Mix and match any shirts from any show."; }
+  function findProduct(showId, id) {
+    var sh = SHOWS.filter(function (x) { return x.id === showId; })[0];
+    var p = sh && sh.products.filter(function (x) { return x.id === id && !x.placeholder; })[0];
+    return p ? { show: sh, p: p } : null;
+  }
+  var CART_KEY = "pts-cart-v1", memCart = [];
+  function loadCart() {
+    var raw = memCart;
+    try { var t = localStorage.getItem(CART_KEY); if (t) raw = JSON.parse(t); } catch (e) {}
+    if (!Array.isArray(raw)) raw = [];
+    return raw.filter(function (l) { var f = l && findProduct(l.show, l.id); return f && f.p.sizes.indexOf(l.size) >= 0 && l.qty > 0; })
+      .map(function (l) { return { show: l.show, id: l.id, size: l.size, qty: Math.min(Math.round(l.qty), 20) }; });
+  }
+  function saveCart(c) { memCart = c; try { localStorage.setItem(CART_KEY, JSON.stringify(c)); } catch (e) {} paintCount(); }
+  function cartCount(c) { return (c || loadCart()).reduce(function (a, l) { return a + l.qty; }, 0); }
+  function productQty(c, showId, id) { return c.reduce(function (a, l) { return a + (l.show === showId && l.id === id ? l.qty : 0); }, 0); }
+  function maxOf(p) { return p.maxQty || 5; }
+  function paintCount(bump) {
+    var n = cartCount(), el = document.getElementById("cartLink");
+    document.getElementById("cartCount").textContent = n;
+    el.setAttribute("aria-label", "Cart, " + n + " shirt" + (n === 1 ? "" : "s"));
+    if (bump) { el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+  }
+  function addToCart(showId, id, size, qty) {
+    var c = loadCart(), f = findProduct(showId, id); if (!f) return 0;
+    var room = maxOf(f.p) - productQty(c, showId, id), add = Math.max(0, Math.min(qty, room));
+    if (!add) return 0;
+    var line = c.filter(function (l) { return l.show === showId && l.id === id && l.size === size; })[0];
+    if (line) line.qty += add; else c.push({ show: showId, id: id, size: size, qty: add });
+    saveCart(c); paintCount(true); return add;
+  }
+  function totalsLines(c) {
+    var n = cartCount(c), full = n * PR.first, sub = priceFor(n);
+    return '<div><span>' + n + ' shirt' + (n === 1 ? '' : 's') + '</span><span>' + money(sub) + '</span></div>' +
+      (n > 1 ? '<div class="save"><span>Includes multi-shirt savings</span><span>−' + money(full - sub) + '</span></div>' : '');
+  }
+
+  function orderSection(show) {
+    return '<section class="order wrap" id="order" aria-labelledby="order-h"><div class="section-head"><span class="eyebrow">Add to cart</span><h2 id="order-h">Get yours</h2>' +
+      '<p class="hint deal">' + esc(dealText()) + '</p></div>' +
+      '<div class="desk"><form id="orderForm" novalidate>' +
+      '<fieldset><legend><span class="step">1</span> Choose a shirt</legend><div class="choices">' +
+      show.products.map(function (p, i) { return '<div class="choice"><input type="radio" name="shirt" id="shirt-' + esc(p.id) + '" value="' + esc(p.id) + '"' + (i === 0 ? " checked" : "") + '><label for="shirt-' + esc(p.id) + '"><span class="swatch" style="background:' + esc(p.swatch) + '"></span>' + esc(p.choice || p.short || p.name) + '</label></div>'; }).join("") +
+      '</div></fieldset>' +
+      '<fieldset><legend><span class="step">2</span> Size and quantity</legend><div class="choices" id="sizeChoices"></div><p class="hint" id="sizeHint"></p>' +
+      '<div class="qty" aria-label="Quantity"><button type="button" id="qtyMinus" aria-label="One fewer">−</button><output id="qtyOut" aria-live="polite">1</output><button type="button" id="qtyPlus" aria-label="One more">+</button></div>' +
+      '<p class="hint" id="qtyHint"></p></fieldset>' +
+      '<fieldset><legend><span class="step">3</span> Add it to your cart</legend><div class="add-row"><button type="submit" class="btn" id="addBtn">Add to cart</button><a class="linkbtn" href="#cart">Go to cart</a></div>' +
+      '<p class="added" id="addedMsg" role="status" aria-live="polite"></p>' +
+      '<p class="hint">Want a different size or another design? Add it too. Your cart keeps everything, even shirts from other shows.</p></fieldset></form>' +
+      '<aside class="ticket" aria-labelledby="sum-h"><div class="swash" aria-hidden="true"></div><div class="ticket-body"><h3 id="sum-h">Your cart</h3>' +
+      '<div id="miniCart"></div></div></aside></div></section>';
+  }
+
+  function miniCartHtml() {
+    var c = loadCart();
+    if (!c.length) return '<p class="empty">Your cart is empty. Pick a shirt and tap Add to cart.</p><p class="fine">' + esc(dealText()) + '</p>';
+    return '<div class="mini">' + c.map(function (l) { var f = findProduct(l.show, l.id); return '<div class="mini-item"><img src="' + esc(f.p.images[0]) + '" alt=""><div><strong>' + esc(f.p.short || f.p.name) + '</strong><span>Size ' + esc(l.size) + ' · Qty ' + l.qty + '</span></div></div>'; }).join("") + '</div>' +
+      '<div class="lines">' + totalsLines(c) + '</div>' +
+      '<a class="btn" href="#cart">Check out</a><p class="fine">Shipping or free Orlando pickup is chosen at checkout. Keep shopping to add more shirts.</p>';
+  }
+
   function initOrder(show) {
     var $ = function (id) { return document.getElementById(id); };
     var byId = {}; show.products.forEach(function (p) { byId[p.id] = p; });
-    var st = { shirt: show.products[0].id, size: show.products[0].def || show.products[0].sizes[0], qty: 1, delivery: "ship" };
-
+    var st = { shirt: show.products[0].id, size: show.products[0].def || show.products[0].sizes[0], qty: 1 };
+    function room() { var p = byId[st.shirt]; return maxOf(p) - productQty(loadCart(), show.id, p.id); }
     function renderSizes() {
       var p = byId[st.shirt], box = $("sizeChoices");
       if (p.sizes.indexOf(st.size) < 0) st.size = p.def || p.sizes[0];
       box.innerHTML = p.sizes.map(function (s) { return '<div class="choice"><input type="radio" name="size" id="size-' + esc(s) + '" value="' + esc(s) + '"' + (s === st.size ? " checked" : "") + '><label for="size-' + esc(s) + '">' + esc(s) + '</label></div>'; }).join("");
       $("sizeHint").textContent = p.hint || ""; $("sizeHint").hidden = !p.hint;
-      if (st.qty > (p.maxQty || 5)) st.qty = p.maxQty || 5;
-    }
-    function f() { var o = {}; ["first","last","email","phone","addr1","addr2","city","state","zip","country","notes"].forEach(function (k) { o[k] = $(k).value.trim(); }); return o; }
-    function shipCost() { return st.delivery === "ship" ? show.shipping : 0; }
-    function paypalUrl() {
-      var v = f(), p = byId[st.shirt], pk = st.delivery === "pickup";
-      var params = { cmd: "_xclick", business: SITE.paypalEmail, currency_code: "USD",
-        item_name: (show.name + " - " + p.name + " - Size " + st.size + (pk ? " - LOCAL PICKUP" : "")).slice(0, 127),
-        item_number: (show.id + "-" + p.id + "-" + st.size).toUpperCase(),
-        amount: Number(p.price).toFixed(2), quantity: String(st.qty), shipping: shipCost().toFixed(2), no_shipping: pk ? "1" : "2",
-        on0: "Size", os0: st.size, first_name: v.first, last_name: v.last, email: v.email,
-        address1: pk ? "" : v.addr1, address2: pk ? "" : v.addr2, city: pk ? "" : v.city, state: pk ? "" : v.state, zip: pk ? "" : v.zip, country: pk ? "" : v.country,
-        custom: ((pk ? "LOCAL PICKUP | " : "") + "Phone: " + (v.phone || "n/a") + " | Notes: " + (v.notes || "none")).slice(0, 255) };
-      return "https://www.paypal.com/cgi-bin/webscr?" + Object.keys(params).filter(function (k) { return params[k] !== ""; }).map(function (k) { return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]); }).join("&");
     }
     function update() {
-      var p = byId[st.shirt], pk = st.delivery === "pickup", max = p.maxQty || 5;
-      $("qtyOut").textContent = st.qty; $("qtyMinus").disabled = st.qty <= 1; $("qtyPlus").disabled = st.qty >= max;
-      $("sumImg").src = p.images[0]; $("sumName").textContent = p.name;
-      $("sumMeta").textContent = "Size " + st.size + " · Qty " + st.qty + (pk ? " · Pickup" : "");
-      $("sumSub").textContent = money(p.price * st.qty);
-      $("shipLabel").textContent = pk ? "Pickup" : "Shipping & handling";
-      $("sumShip").textContent = pk ? "Free" : money(show.shipping);
-      $("sumTotal").textContent = money(p.price * st.qty + shipCost());
+      var r = room(), p = byId[st.shirt];
+      if (st.qty > Math.max(r, 1)) st.qty = Math.max(r, 1);
+      $("qtyOut").textContent = st.qty; $("qtyMinus").disabled = st.qty <= 1; $("qtyPlus").disabled = st.qty >= r;
+      $("addBtn").disabled = r <= 0;
+      $("addBtn").textContent = r <= 0 ? "Limit reached" : "Add " + st.qty + " to cart";
+      $("qtyHint").textContent = r <= 0 ? "You already have the most we can sell of this shirt (" + maxOf(p) + ") in your cart." : (maxOf(p) - r > 0 ? "You have " + (maxOf(p) - r) + " of this shirt in your cart. Up to " + maxOf(p) + " per order." : "");
+      $("qtyHint").hidden = !$("qtyHint").textContent;
+      $("miniCart").innerHTML = miniCartHtml();
+    }
+    var form = $("orderForm");
+    form.addEventListener("change", function (e) {
+      if (e.target.name === "shirt") { st.shirt = e.target.value; st.qty = 1; renderSizes(); $("addedMsg").textContent = ""; }
+      if (e.target.name === "size") st.size = e.target.value;
+      update();
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var p = byId[st.shirt], added = addToCart(show.id, p.id, st.size, st.qty);
+      if (added) { var n = cartCount(); $("addedMsg").textContent = "Added " + added + " × " + (p.short || p.name) + " (size " + st.size + "). " + n + " shirt" + (n === 1 ? "" : "s") + " in your cart."; st.qty = 1; }
+      update();
+    });
+    $("qtyMinus").addEventListener("click", function () { if (st.qty > 1) { st.qty--; update(); } });
+    $("qtyPlus").addEventListener("click", function () { if (st.qty < room()) { st.qty++; update(); } });
+    app.querySelectorAll("[data-pick]").forEach(function (a) {
+      a.addEventListener("click", function (ev) {
+        ev.preventDefault(); var id = a.dataset.pick; $("shirt-" + id).checked = true; st.shirt = id; st.qty = 1; $("addedMsg").textContent = ""; renderSizes(); update();
+        document.getElementById("order").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+    renderSizes(); update();
+  }
+
+  /* ---------- Cart / checkout page ---------- */
+  function renderCart() {
+    applyTheme(HOME);
+    document.title = "Your cart · PodcastTShirts.com";
+    selectTab("cart");
+    var c = loadCart();
+    var head = '<div class="pod"><div class="wrap"><strong>Multi-shirt deal</strong><span>' + esc(dealText()) + '</span></div></div>';
+    var foot = '<div class="showfoot"><div class="wrap"><span>© 2026 PodcastTShirts.com · Made in Orlando, FL</span><span>Questions? <span class="mail">' + esc(SITE.contactEmail) + '</span><button type="button" class="copy" data-copy="' + esc(SITE.contactEmail) + '">Copy</button></span></div></div>';
+    if (!c.length) {
+      app.innerHTML = head + '<section class="order wrap"><div class="section-head"><span class="eyebrow">Your cart</span><h2>Your cart is empty</h2><p class="hint">Pick a show, choose your shirts and tap Add to cart.</p></div><p><a class="btn" href="#home">Browse the shows</a></p></section>' + foot;
+      return;
+    }
+    var shows = []; c.forEach(function (l) { var sh = findProduct(l.show, l.id).show; if (shows.indexOf(sh) < 0) shows.push(sh); });
+    var shipping = Math.max.apply(null, shows.map(function (x) { return Number(x.shipping) || 0; }));
+    var pickup = shows.every(function (x) { return x.pickup; }) ? shows[0].pickup : null;
+    app.innerHTML = head +
+      '<section class="order wrap" id="checkout" aria-labelledby="order-h"><div class="section-head"><span class="eyebrow">Checkout</span><h2 id="order-h">Your cart</h2></div>' +
+      '<div class="desk"><form id="orderForm" novalidate>' +
+      '<fieldset><legend><span class="step">1</span> Your shirts</legend><div class="cart-lines" id="cartLines"></div><p><a class="linkbtn" href="#home">＋ Keep shopping</a></p></fieldset>' +
+      '<fieldset><legend><span class="step">2</span> Delivery</legend><div class="choices">' +
+      '<div class="choice"><input type="radio" name="delivery" id="del-ship" value="ship" checked><label for="del-ship">Ship it to me · ' + money(shipping) + '</label></div>' +
+      (pickup ? '<div class="choice"><input type="radio" name="delivery" id="del-pickup" value="pickup"><label for="del-pickup">' + esc(pickup.label) + '</label></div>' : "") +
+      '</div>' + (pickup ? '<p class="hint" id="pickupHint" hidden>' + esc(pickup.note) + '</p>' : "") + '<p class="hint">One shipping charge covers your whole order.</p></fieldset>' +
+      '<fieldset><legend><span class="step">3</span> <span id="detailsTitle">Shipping details</span></legend>' +
+      '<div class="row"><div class="field"><label for="first">First name</label><input type="text" id="first" autocomplete="given-name" required></div><div class="field"><label for="last">Last name</label><input type="text" id="last" autocomplete="family-name" required></div></div>' +
+      '<div class="row"><div class="field"><label for="email">Email</label><input type="email" id="email" autocomplete="email" required></div><div class="field"><label for="phone">Phone <small>(optional)</small></label><input type="tel" id="phone" autocomplete="tel"></div></div>' +
+      '<div id="addrBlock" style="display:grid;gap:.9rem"><div class="field"><label for="addr1">Street address</label><input type="text" id="addr1" autocomplete="address-line1" required></div>' +
+      '<div class="field"><label for="addr2">Apt, suite, unit <small>(optional)</small></label><input type="text" id="addr2" autocomplete="address-line2"></div>' +
+      '<div class="row"><div class="field"><label for="city">City</label><input type="text" id="city" autocomplete="address-level2" required></div><div class="field"><label for="state">State / province</label><input type="text" id="state" autocomplete="address-level1" required></div><div class="field"><label for="zip">ZIP / postal code</label><input type="text" id="zip" autocomplete="postal-code" required></div></div>' +
+      '<div class="field"><label for="country">Country</label><select id="country" autocomplete="country"><option value="US" selected>United States</option><option value="CA">Canada</option><option value="GB">United Kingdom</option><option value="AU">Australia</option></select></div></div>' +
+      '<div class="field"><label for="notes">Order notes <small>(optional)</small></label><textarea id="notes" rows="2" maxlength="200"></textarea></div></fieldset></form>' +
+      '<aside class="ticket" aria-labelledby="sum-h"><div class="swash" aria-hidden="true"></div><div class="ticket-body"><h3 id="sum-h">Order summary</h3>' +
+      '<div class="lines" id="sumLines"></div>' +
+      '<div class="form-msg" id="formMsg" hidden></div><a class="btn" id="payBtn" href="#" target="_blank" rel="noopener">Pay with PayPal</a>' +
+      '<p class="fine"><strong>Made in Orlando.</strong> ' + esc(SITE.podNote) + ' You’ll finish checkout on PayPal’s secure site, and every shirt, size and your delivery details go with the payment.</p></div></aside></div></section>' + foot;
+    initCart(shipping, pickup);
+  }
+
+  function initCart(shipping, pickup) {
+    var $ = function (id) { return document.getElementById(id); };
+    var st = { delivery: "ship" };
+    function f() { var o = {}; ["first","last","email","phone","addr1","addr2","city","state","zip","country","notes"].forEach(function (k) { o[k] = $(k).value.trim(); }); return o; }
+    function shipCost() { return st.delivery === "ship" ? shipping : 0; }
+    function paypalUrl() {
+      var v = f(), pk = st.delivery === "pickup", c = loadCart(), n = cartCount(c);
+      var params = { cmd: "_cart", upload: "1", business: SITE.paypalEmail, currency_code: "USD", no_shipping: pk ? "1" : "2",
+        first_name: v.first, last_name: v.last, email: v.email,
+        address1: pk ? "" : v.addr1, address2: pk ? "" : v.addr2, city: pk ? "" : v.city, state: pk ? "" : v.state, zip: pk ? "" : v.zip, country: pk ? "" : v.country,
+        "return": location.origin + "/?thanks=1", cancel_return: location.origin + "/#cart",
+        custom: ((pk ? "LOCAL PICKUP | " : "") + "Phone: " + (v.phone || "n/a") + " | Notes: " + (v.notes || "none")).slice(0, 255) };
+      c.forEach(function (l, i) {
+        var f2 = findProduct(l.show, l.id), k = i + 1;
+        params["item_name_" + k] = (f2.show.name + " - " + f2.p.name + " - Size " + l.size + (pk ? " - LOCAL PICKUP" : "")).slice(0, 127);
+        params["item_number_" + k] = (l.show + "-" + l.id + "-" + l.size).toUpperCase().slice(0, 127);
+        params["amount_" + k] = Number(PR.first).toFixed(2);
+        params["quantity_" + k] = String(l.qty);
+        params["on0_" + k] = "Size"; params["os0_" + k] = l.size;
+      });
+      if (shipCost() > 0) params.shipping_1 = shipCost().toFixed(2);
+      if (n > 1) params.discount_amount_cart = (n * PR.first - priceFor(n)).toFixed(2);
+      return "https://www.paypal.com/cgi-bin/webscr?" + Object.keys(params).filter(function (k) { return params[k] !== ""; }).map(function (k) { return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]); }).join("&");
+    }
+    function drawLines() {
+      var c = loadCart();
+      if (!c.length) { state.current = null; renderCart(); return false; }
+      $("cartLines").innerHTML = c.map(function (l, i) {
+        var f2 = findProduct(l.show, l.id), more = productQty(c, l.show, l.id) < maxOf(f2.p);
+        return '<div class="cart-line"><img src="' + esc(f2.p.images[0]) + '" alt=""><div><strong>' + esc(f2.p.short || f2.p.name) + '</strong><span class="meta">' + esc(f2.show.name) + ' · Size ' + esc(l.size) + '</span></div>' +
+          '<div class="ctl"><div class="qty" aria-label="Quantity"><button type="button" data-q="-1" data-i="' + i + '" aria-label="One fewer"' + (l.qty <= 1 ? " disabled" : "") + '>−</button><output>' + l.qty + '</output><button type="button" data-q="1" data-i="' + i + '" aria-label="One more"' + (more ? "" : " disabled") + '>+</button></div>' +
+          '<button type="button" class="linkbtn" data-rm="' + i + '">Remove</button></div></div>';
+      }).join("");
+      return true;
+    }
+    function update() {
+      var c = loadCart(), n = cartCount(c), pk = st.delivery === "pickup";
+      $("sumLines").innerHTML = totalsLines(c) +
+        '<div><span>' + (pk ? "Pickup" : "Shipping &amp; handling") + '</span><span>' + (pk ? "Free" : money(shipping)) + '</span></div>' +
+        '<div class="total"><span>Total</span><span>' + money(priceFor(n) + shipCost()) + '</span></div>';
       $("addrBlock").hidden = pk; if ($("pickupHint")) $("pickupHint").hidden = !pk;
       $("detailsTitle").textContent = pk ? "Your details" : "Shipping details";
       $("payBtn").href = paypalUrl();
@@ -666,7 +826,7 @@ window.__startShop = function () {
         w.classList.toggle("bad", !ok);
         var e = w.querySelector(".err");
         if (!ok && !e) { e = document.createElement("span"); e.className = "err"; w.appendChild(e); }
-        if (e) { e.textContent = ok ? "" : (v === "" ? "Fill this in so we can get your shirt to you." : "Enter an email like name@example.com."); e.hidden = ok; }
+        if (e) { e.textContent = ok ? "" : (v === "" ? "Fill this in so we can get your shirts to you." : "Enter an email like name@example.com."); e.hidden = ok; }
         el.setAttribute("aria-invalid", ok ? "false" : "true");
         if (!ok && !bad) bad = el;
       });
@@ -677,24 +837,31 @@ window.__startShop = function () {
       if (bad) { ev.preventDefault(); $("formMsg").textContent = "A few details are missing. Fill in the highlighted fields, then tap Pay with PayPal again."; $("formMsg").hidden = false; bad.focus(); bad.scrollIntoView({ block: "center", behavior: "smooth" }); }
       else { $("formMsg").hidden = true; this.href = paypalUrl(); }
     });
+    $("cartLines").addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      var c = loadCart();
+      if (b.dataset.rm !== undefined) c.splice(Number(b.dataset.rm), 1);
+      else if (b.dataset.q) { var l = c[Number(b.dataset.i)], f2 = findProduct(l.show, l.id), d = Number(b.dataset.q);
+        if (d > 0 && productQty(c, l.show, l.id) >= maxOf(f2.p)) return;
+        l.qty = Math.max(1, l.qty + d); }
+      saveCart(c); if (drawLines()) update();
+    });
     var form = $("orderForm");
     form.addEventListener("change", function (e) {
-      if (e.target.name === "shirt") { st.shirt = e.target.value; renderSizes(); }
-      if (e.target.name === "size") st.size = e.target.value;
       if (e.target.name === "delivery") { st.delivery = e.target.value; if (!$("formMsg").hidden) validate(); }
       update();
     });
     form.addEventListener("input", function (e) { var w = e.target.closest(".field"); if (w && w.classList.contains("bad")) validate(); update(); });
     form.addEventListener("submit", function (e) { e.preventDefault(); });
-    $("qtyMinus").addEventListener("click", function () { if (st.qty > 1) { st.qty--; update(); } });
-    $("qtyPlus").addEventListener("click", function () { if (st.qty < (byId[st.shirt].maxQty || 5)) { st.qty++; update(); } });
-    app.querySelectorAll("[data-pick]").forEach(function (a) {
-      a.addEventListener("click", function (ev) {
-        ev.preventDefault(); var id = a.dataset.pick; $("shirt-" + id).checked = true; st.shirt = id; renderSizes(); update();
-        document.getElementById("order").scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
-    renderSizes(); update();
+    drawLines(); update();
+  }
+
+  function renderThanks() {
+    applyTheme(HOME);
+    document.title = "Thank you · PodcastTShirts.com";
+    selectTab("none");
+    app.innerHTML = '<section class="order wrap"><div class="section-head"><span class="eyebrow">Order received</span><h2>Thanks for your order!</h2>' +
+      '<p class="hint">PayPal will email your receipt. ' + esc(SITE.podNote) + ' Picking up in Orlando? Email ' + esc(SITE.contactEmail) + ' to set a time.</p></div><p><a class="btn" href="#home">Back to the shows</a></p></section>';
   }
 
   app.addEventListener("click", function (e) {
@@ -711,11 +878,18 @@ window.__startShop = function () {
   function route() {
     var id = (location.hash || "").slice(1);
     if (id === "order" || id === "shows") return;
+    var thanks = /[?&]thanks=1/.test(location.search) && !id;
     var show = SHOWS.filter(function (s) { return s.id === id; })[0];
-    var key = show ? show.id : "home";
+    var key = thanks ? "thanks" : id === "cart" ? "cart" : show ? show.id : "home";
+    document.getElementById("cartLink").setAttribute("aria-current", key === "cart" ? "page" : "false");
     if (state.current === key) return;
-    state.current = key; if (show) render(show); else renderHome(); window.scrollTo(0, 0);
+    state.current = key;
+    if (thanks) { saveCart([]); renderThanks(); try { history.replaceState(null, "", "/"); } catch (e) {} state.current = "thanks"; }
+    else if (key === "cart") renderCart(); else if (show) render(show); else renderHome();
+    window.scrollTo(0, 0);
   }
+  paintCount();
+  window.addEventListener("storage", function (e) { if (e.key === CART_KEY) { paintCount(); if (state.current === "cart") { state.current = null; route(); } } });
   window.addEventListener("hashchange", route);
   route();
 };
